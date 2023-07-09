@@ -1,0 +1,61 @@
+# For full config options, check the docs:
+#    docs.serverless.com
+service: image-resizer
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-stack-output
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-1
+  stage: ${opt:stage, 'dev'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - 'arn:aws:dynamodb:eu-west-1:*:*'
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+          Resource:
+            - 'arn:aws:s3:::dbarreiro.dynamic-image-resizing/*'
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  output:
+    file: .serverless/output.json
+
+resources:
+  Outputs:
+    ApiUrl:
+      Description: "The API Gateway URL"
+      Value:
+        Fn::Join:
+          - ""
+          - - "https://"
+            - Ref: ApiGatewayRestApi
+            - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}"
+
+functions:
+  resize:
+    handler: src/functions/resize.handler
+    description: resize api
+    events:
+      - http:
+          path: resize
+          method: post
+    environment:
+      BUCKET: dbarreiro.dynamic-image-resizing
+      REGION: eu-west-1
+
