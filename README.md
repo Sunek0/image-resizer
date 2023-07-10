@@ -113,6 +113,7 @@ No se ha incluido un seguimiento de cada request de forma individual. Se podría
 
 No se ha ahondado en un control de errores de Express granulado.
 
+No se ha hecho uso de un sistema de configuración estandarizado como el que aporta librerías como `config`.
 
 ## resizer-aws
 Esta aplicación contiene un AWS Lambda para el redimensionado de la imagen. Esta aplicación está compuesta por una función Lambda de AWS que va a generar una entrada en un API rest, de path `/resize` y método `POST`, que tiene por body un json con el siguiente formato:
