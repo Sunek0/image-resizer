@@ -75,6 +75,39 @@ Para ejecutar el proyecto habría que ejecutar el siguiente comando:
 npm run dev
 ```
 
+### Ejemplo de launch.json para VS Code
+Para reducir la dificultad de la ejecución del proyecto se incluye una configuración de depuración para VS Code con las variables de entorno:
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+          "type": "node",
+          "request": "launch",
+          "name": "Debug task-api",
+          "program": "${workspaceFolder}/src/index.ts",
+          "preLaunchTask": "npm: build:tsc",
+          "sourceMaps": true,
+          "smartStep": true,
+          "internalConsoleOptions": "openOnSessionStart",
+          "outFiles": [
+              "${workspaceFolder}/app/**/*.js"
+          ],
+          "outputCapture": "std",
+          "env": {
+            "AWS_REGION": "eu-west-1",
+            "AWS_ACCESS_KEY_ID": "",
+            "AWS_ACCESS_KEY_SECRET": "",
+            "S3_BUCKET_NAME": "",
+            "IMAGE_TABLE_NAME": "images",
+            "TASK_TABLE_NAME": "tasks",
+          }
+        },
+    ]
+}
+
+```
+
 ### Limitaciones
 No se ha incluido un seguimiento de cada request de forma individual. Se podría añadir un id a cada request para poder añadir al sistema de logs, esto permitiría revisar con más detalle donde pudiera haber incidencias en la ejecución de la request.
 
