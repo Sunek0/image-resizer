@@ -44,8 +44,8 @@ app.post("/resize", async function (req: express.Request, res: express.Response)
     }
     const getImageStream = await s3Handler.getItem(getImageStreamParams);
 
-    // Resize image to 1000 and 800 width
-    const streamResizeBig = new ImageResizerHandler(1000);
+    // Resize image to 1024 and 800 width
+    const streamResizeBig = new ImageResizerHandler(1024);
     const streamResizeLittle = new ImageResizerHandler(800);
 
     getImageStream.Body.pipe(streamResizeBig.resizerStream);
@@ -53,7 +53,7 @@ app.post("/resize", async function (req: express.Request, res: express.Response)
 
     const [imageBig, imageLittle] = await Promise.all([streamResizeBig.resizerStream, streamResizeLittle.resizerStream])
 
-    const imageBigPath = `${parsedS3FilePath.name}-1000.jpg`;
+    const imageBigPath = `${parsedS3FilePath.name}-1024.jpg`;
     const imageLittlePath = `${parsedS3FilePath.name}-800.jpg`;
 
     // Get big image checksum from stream
