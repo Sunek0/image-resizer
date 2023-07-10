@@ -15,3 +15,6 @@ coverage
 # Dotenv
 !.env.example
 .env*
+
+apps/task-api/app
+apps/task-api/output
