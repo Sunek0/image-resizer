@@ -1,7 +1,9 @@
+import { Service } from 'typedi';
 import createImageSizeStream from 'image-size-stream';
 import { ImageInfo } from '../../core/domain/entities/image-info';
 import { IImageInfoService } from '../../core/services/image-info.service';
 
+@Service('ImageInfoService')
 export class LocalImageInfoService implements IImageInfoService {
   async getImageInfo(data: any): Promise<ImageInfo> {
     const imageSizeStream = createImageSizeStream();
