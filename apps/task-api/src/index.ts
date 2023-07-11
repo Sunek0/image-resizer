@@ -1,9 +1,11 @@
 import 'reflect-metadata';
 import config from 'config';
+import { join, resolve } from 'path';
 import { logger } from './config/logger';
 import app from './server';
 
 try {
+  global.appRoot = join(resolve(__dirname), '../');
   const port = config.server.port;
 
   app.listen(port, () => {
