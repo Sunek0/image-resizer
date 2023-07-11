@@ -11,7 +11,7 @@ import { IFileChecksumService } from '../../services/file-checksum.service';
 import { File } from '../entities/file';
 import { IFileRepository } from '../../repositories/file.repository';
 import { Image } from '../entities/image';
-
+import { IProcessTaskInput } from '../interfaces/process-task-input';
 
 @Service()
 export class ProcessTask {
@@ -25,16 +25,12 @@ export class ProcessTask {
     @Inject('TaskRepository') private taskRepository: ITaskRepository,
   ) {}
 
-  async execute(taskId: string, filePath: string): Promise<void> {
+  async execute(input: IProcessTaskInput): Promise<void> {
+    const { taskId, imageDirectory, outputDirectory, fileName} = input;
     try {
-      const imageStream = this.fileService.getReaderStream(filePath);
+      const imageStream = this.fileService.getReaderStream(join(imageDirectory, fileName));
 
-      const uploadFileInput: IUploadFileInput = {
-        filename: filePath,
-        data: imageStream
-      };
-
-      const file = new File(filePath, imageStream);
+      const file = new File(fileName, imageStream);
       const uploadFilePromise = this.fileRepository.putItem(file);
       const imageInfoPromise = this.imageInfoService.getImageInfo(imageStream);
       const hash = this.fileChecksumService.computeChecksum(imageStream);
@@ -44,7 +40,7 @@ export class ProcessTask {
       hash.end();
       const checksum = hash.read();
 
-      const image = new Image(filePath, checksum, imageInfo?.width || 0, imageInfo?.height || 0);
+      const image = new Image(fileName, checksum, imageInfo?.width || 0, imageInfo?.height || 0);
       const originalImage = await this.imageRepository.add(image);
       const lambdaResult = await this.lambdaService.resizeImage(originalImage.id);
 
@@ -61,17 +57,17 @@ export class ProcessTask {
 
         const [getBigFile, getLittleFile] = await Promise.all([getBigFilePromise, getLittleFilePromise]);
 
-        const parsedImage = parse(filePath);
+        const fileNameParsed = parse(fileName);
 
-        const pathBig = join(__dirname, '../../../output', parsedImage.name, '1024');
-        const pathLittle = join(__dirname, '../../../output', parsedImage.name, '800');
+        const pathBig = join(outputDirectory, fileNameParsed.name, '1024');
+        const pathLittle = join(outputDirectory, fileNameParsed.name, '800');
 
         const createBigImageFolderPromise = this.fileService.createFolder(pathBig, true);
-        const createLittleImageFolderPromise = this.fileService.createFolder(pathBig, true);
+        const createLittleImageFolderPromise = this.fileService.createFolder(pathLittle, true);
         await Promise.all([createBigImageFolderPromise, createLittleImageFolderPromise]);
 
-        const bigImageStream = this.fileService.getWritableStream(join(pathBig, ` ${checksum}${parsedImage.ext}`));
-        const littleImageStream = this.fileService.getWritableStream(join(pathLittle, ` ${checksum}${parsedImage.ext}`));
+        const bigImageStream = this.fileService.getWritableStream(join(pathBig, ` ${checksum}${fileNameParsed.ext}`));
+        const littleImageStream = this.fileService.getWritableStream(join(pathLittle, ` ${checksum}${fileNameParsed.ext}`));
 
         getBigFile?.data.Body.pipe(bigImageStream);
         getLittleFile?.data.Body.pipe(littleImageStream);

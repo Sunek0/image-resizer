@@ -6,6 +6,7 @@ import { CreateTask } from '../../core/domain/use-cases/create-task';
 import { ProcessTask } from '../../core/domain/use-cases/process-task';
 import { ICreateTaskInput } from '../../core/domain/interfaces/create-task-input';
 import { TaskStatus } from '../../core/domain/entities/task-status';
+import { IProcessTaskInput } from '../../core/domain/interfaces/process-task-input';
 
 
 @Service()
@@ -16,14 +17,13 @@ export class PostTaskController {
   ) {}
 
   async request(req: Request, res: Response): Promise<void> {
-    const { imagePath } = req.body;
-    const filePath = join(__dirname, '../../../images', imagePath);
+    const { imageFile } = req.body;
     let taskData;
 
     try {
       const createTaskInput: ICreateTaskInput = {
-        path: filePath,
-        status: TaskStatus.Processing
+        fileName: imageFile,
+        localDirectory: join(global.appRoot, 'images')
       };
       taskData = await this.createTaskUseCase.execute(createTaskInput);
 
@@ -36,6 +36,12 @@ export class PostTaskController {
       });
     }
 
-    await this.processTaskUseCase.execute(taskData.id, imagePath);
+    const processTaskInput: IProcessTaskInput = {
+      fileName: imageFile,
+      imageDirectory: join(global.appRoot, 'images'),
+      outputDirectory: join(global.appRoot, 'output'),
+      taskId: taskData.id
+    };
+    await this.processTaskUseCase.execute(processTaskInput);
   }
 }

@@ -1,9 +1,10 @@
 import { Inject, Service } from 'typedi';
-import { parse } from 'path';
+import { join } from 'path';
 import { Task } from '../entities/task';
 import { ITaskRepository } from '../../repositories/task.repository';
 import { ICreateTaskInput } from '../interfaces/create-task-input';
 import { IFileService } from '../../services/file.service';
+import { TaskStatus } from '../entities/task-status';
 
 @Service()
 export class CreateTask {
@@ -13,16 +14,16 @@ export class CreateTask {
   ) {}
 
   async execute(input: ICreateTaskInput): Promise<Task> {
-    const { path, status } = input;
+    const { localDirectory, fileName } = input;
 
-    const basePath = parse(path).base;
+    const filePath = join(localDirectory, fileName);
 
-    const fileExists = await this.fileService.fileExists(path);
+    const fileExists = await this.fileService.fileExists(filePath);
 
     if (!fileExists) {
-      throw new Error(`${basePath} not exists`);
+      throw new Error(`${filePath} not exists`);
     }
-    const task = new Task(basePath, status);
+    const task = new Task(fileName, TaskStatus.Processing);
     await this.taskRepository.add(task);
     return task;
   }
