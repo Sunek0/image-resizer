@@ -1,5 +1,5 @@
 import { Hash } from 'crypto';
 
-export interface FileChecksumInteractor {
+export interface IFileChecksumService {
   computeChecksum(data: any): Hash;
 }

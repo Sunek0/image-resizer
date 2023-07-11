@@ -1,5 +1,5 @@
 import { ImageInfo } from '../domain/entities/image-info';
 
-export interface ImageInfoInteractor {
+export interface IImageInfoService {
   getImageInfo(data: any): Promise<ImageInfo>;
 }

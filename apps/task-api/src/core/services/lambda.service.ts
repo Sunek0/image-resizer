@@ -1,5 +1,5 @@
 import { ImageResize } from '../domain/entities/image-resize';
 
-export interface LambdaInteractor {
+export interface ILambdaService {
   resizeImage(imageId: string): Promise<ImageResize>;
 }

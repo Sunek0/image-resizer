@@ -1,17 +1,17 @@
 import createImageSizeStream from 'image-size-stream';
 import { ImageInfo } from '../../core/domain/entities/image-info';
-import { ImageInfoInteractor } from '../../core/interactors/image-info.interactor';
+import { IImageInfoService } from '../../core/services/image-info.service';
 
-export class LocalImageInfoInteractor implements ImageInfoInteractor {
+export class LocalImageInfoService implements IImageInfoService {
   async getImageInfo(data: any): Promise<ImageInfo> {
     const imageSizeStream = createImageSizeStream();
     return new Promise((resolve, reject) => {
       imageSizeStream.on('size', (dimensions: any) => {
         const imageInfo = new ImageInfo(dimensions.width, dimensions.height, dimensions.type);
-        resolve(imageInfo)
+        resolve(imageInfo);
       });
 
       data.pipe(imageSizeStream);
-    })
+    });
   }
 }
