@@ -6,10 +6,10 @@ Este proyecto consiste en un REST API y una función AWS Lambda que genera image
 - **AWS Lambda**: Usaremos Lambda para leer una imagen de S3, redimensionarla y almacenar las imagenes resultantes nuevamente en S3.
 
 El proyecto lo compone de:
-- **REST API**: Aplicación de NodeJS que puede ser ejecutada de forma local. Este API esta realizada siguiendo Domain-driven design con una arquitectura hexagonal. Se ha separado las entidades y casos de uso del negocio de las implementaciones.
+- **REST API**: Aplicación de NodeJS que puede ser ejecutada de forma local. Este API esta realizada siguiendo Domain-driven design con una arquitectura hexagonal.
 - **Función de reescalado**: Es una función lambda. Esta función hace uso de streams para mejorar la velocidad de creación de las imágenes redimensionadas. Utiliza serverless para el despliegue en AWS.
 
-Ambas aplicaciones han sido desarrolladas con typescript.
+Ambas aplicaciones han sido desarrolladas en typescript.
 
 ### Requisitos
 Para poder ejecutar este proyecto es necesario la creación de un usuario AWS. No se han definido los roles necesarios para la ejecución de la demo, se puede dar permisos de `AdministratorAccess` pero no es una práctica recomendada.
@@ -20,7 +20,7 @@ Debemos instalar el CLI de AWS ([más info aquí](https://docs.aws.amazon.com/es
 aws configure
 ```
 
-Es necesario crear un bucket de S3 y dos tablas de DynamoDB (una para las imágenes y otra para las tareas), las cuales tendrán por Partition Key el valor `id`.
+Es necesario crear un bucket de S3 y dos tablas de DynamoDB (una para las imágenes y otra para las tareas), las cuales tendrán por Partition Key el valor `id`. También devemos de especificar [un provider AWS](https://app.serverless.com/settings/providers) en la web de serverless.
 
 ## Task API
 Esta es una aplicación de NodeJS que puede ser ejecutada en local.
@@ -45,6 +45,9 @@ En caso de encontrar el archivo devolverá un código 202 con un objeto con el s
 }
 ```
 
+El funcionamiento del endpoint es el siguiente:
+![POST diagram](post-flow-diagram.png)
+
 **GET** http://localhost:3000/task/<task-uuid>. Si se encuentra la tarea devolverá un código 200 con un objeto con el siguiente contenido:
 ```
 {
@@ -61,59 +64,38 @@ Para arrancar el proyecto es necesario instalar la dependencias ejecutando el si
 npm i
 ```
 
-Es necesario configurar las siguientes variables de entorno antes de arrancar el proyecto:
-- **AWS_REGION**: Región de AWS. Ejemplo: eu-west-1.
-- **AWS_ACCESS_KEY_ID**: Access Key ID del usuario que hemos creado.
-- **AWS_ACCESS_KEY_SECRET**: Access Key Secret del usuario que hemos creado.
-- **S3_BUCKET_NAME**: Nombre del bucket donde almacenaremos las imágenes.
-- **IMAGE_TABLE_NAME**: Nombre de la tabla que hemos creado. Ejemplo: images
-- **TASK_TABLE_NAME**: Nombre de la tabla que hemos creado. Ejemplo: tasks
+Es necesario configurar los datos de acceso de AWS en el archivo de configuración. El archivo por defecto es default.yml. El proyecto hace uso de la librería `config`. La configuración por defecto es la siguiente:
+```
+aws:
+  lambda:
+    region: eu-west-1
+    accessKeyId: <AWS KEY ID>
+    secretAccessKey: <AWS Secret KEY>
+    paths:
+      resize: <lamda API Path>
+  s3:
+    region: eu-west-1
+    accessKeyId: <AWS KEY ID>
+    secretAccessKey: <AWS Secret KEY>
+    bucket: <S3 bucket>
+  dynamodb:
+    region: eu-west-1
+    accessKeyId: <AWS KEY ID>
+    secretAccessKey: <AWS Secret KEY>
+    tables:
+      images: images
+      tasks: tasks
+server:
+  port: 3000
+logger:
+  level: info
+```
 
 
 Para ejecutar el proyecto habría que ejecutar el siguiente comando:
 ```
 npm run dev
 ```
-
-### Ejemplo de launch.json para VS Code
-Para reducir la dificultad de la ejecución del proyecto se incluye una configuración de depuración para VS Code con las variables de entorno:
-```
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-          "type": "node",
-          "request": "launch",
-          "name": "Debug task-api",
-          "program": "${workspaceFolder}/src/index.ts",
-          "preLaunchTask": "npm: build:tsc",
-          "sourceMaps": true,
-          "smartStep": true,
-          "internalConsoleOptions": "openOnSessionStart",
-          "outFiles": [
-              "${workspaceFolder}/app/**/*.js"
-          ],
-          "outputCapture": "std",
-          "env": {
-            "AWS_REGION": "eu-west-1",
-            "AWS_ACCESS_KEY_ID": "",
-            "AWS_ACCESS_KEY_SECRET": "",
-            "S3_BUCKET_NAME": "",
-            "IMAGE_TABLE_NAME": "images",
-            "TASK_TABLE_NAME": "tasks",
-          }
-        },
-    ]
-}
-
-```
-
-### Limitaciones
-No se ha incluido un seguimiento de cada request de forma individual. Se podría añadir un id a cada request para poder añadir al sistema de logs, esto permitiría revisar con más detalle donde pudiera haber incidencias en la ejecución de la request.
-
-No se ha ahondado en un control de errores de Express granulado.
-
-No se ha hecho uso de un sistema de configuración estandarizado como el que aporta librerías como `config`.
 
 ## resizer-aws
 Esta aplicación contiene un AWS Lambda para el redimensionado de la imagen. Esta aplicación está compuesta por una función Lambda de AWS que va a generar una entrada en un API rest, de path `/resize` y método `POST`, que tiene por body un json con el siguiente formato:
@@ -147,4 +129,4 @@ npm i
 npm run deploy
 ```
 
-
+Una vez hecho el deploy nos aparecera el endpoint de la lambda function, esa url la debemos copiar en la configuración de task-api, concretamente en `aws.lambda.paths.resize`.
