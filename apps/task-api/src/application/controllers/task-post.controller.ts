@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { join, parse } from 'path';
+import { join } from 'path';
 import { Service } from 'typedi';
 import { logger } from '../../config/logger';
 import { CreateTask } from '../../core/domain/use-cases/create-task';
 import { ProcessTask } from '../../core/domain/use-cases/process-task';
 import { ICreateTaskInput } from '../../core/domain/interfaces/create-task-input';
-import { TaskStatus } from '../../core/domain/entities/task-status';
 import { IProcessTaskInput } from '../../core/domain/interfaces/process-task-input';
+import { IPostTaskInput } from '../dto/post-task.input';
 
 
 @Service()
@@ -17,7 +17,7 @@ export class PostTaskController {
   ) {}
 
   async request(req: Request, res: Response): Promise<void> {
-    const { imageFile } = req.body;
+    const { imageFile }: IPostTaskInput = req.body;
     let taskData;
 
     try {
