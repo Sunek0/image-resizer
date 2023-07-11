@@ -2,11 +2,12 @@ import { parse } from 'path';
 import { Upload } from '@aws-sdk/lib-storage';
 import config from 'config';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { Service } from 'typedi';
 import { File } from '../../core/domain/entities/file';
 import { IFileRepository } from '../../core/repositories/file.repository';
 import { S3Repository } from './s3.repository';
 
-
+@Service('FileRepository')
 export class FileRepositoryS3 extends S3Repository implements IFileRepository {
   private config: any;
   constructor() {

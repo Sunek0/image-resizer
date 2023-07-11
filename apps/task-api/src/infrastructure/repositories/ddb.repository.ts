@@ -1,9 +1,12 @@
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
-import { databaseConnection } from '../database/connection';
+import { DynamoDBDatabase } from '../database/dynamodb';
+import { Service } from 'typedi';
 
+@Service()
 export class DynamoDBRepository {
-  dbClient: DynamoDBDocument;
-  constructor() {
-    this.dbClient = DynamoDBDocument.from(databaseConnection);
+  protected dbClient: DynamoDBDocument;
+
+  constructor(protected dynamoDB: DynamoDBDatabase) {
+    this.dbClient = DynamoDBDocument.from(dynamoDB.instance);
   }
 }

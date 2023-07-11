@@ -1,15 +1,18 @@
+import config from 'config';
+import { Service } from 'typedi';
 import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
 import { Task } from '../../core/domain/entities/task';
 import { ITaskRepository } from '../../core/repositories/task.repository';
 import { DynamoDBRepository } from './ddb.repository';
 import { TaskStatus } from '../../core/domain/entities/task-status';
-import config from 'config';
+import { DynamoDBDatabase } from '../database/dynamodb';
 
+@Service('TaskRepository')
 export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepository {
-  taskClient: any;
+  private taskClient: any;
 
-  constructor() {
-    super();
+  constructor(protected dynamoDB: DynamoDBDatabase) {
+    super(dynamoDB);
 
     const taskTableDefinition = defineTable(
       {

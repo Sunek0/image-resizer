@@ -1,6 +1,8 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import config from 'config';
+import { Service } from 'typedi';
 
+@Service()
 export class S3Repository {
   s3Client: S3Client;
   constructor() {

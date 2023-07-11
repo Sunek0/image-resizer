@@ -1,14 +1,17 @@
 import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
+import config from 'config';
+import { Service } from 'typedi';
 import { Image } from '../../core/domain/entities/image';
 import { IImageRepository } from '../../core/repositories/image.repository';
 import { DynamoDBRepository } from './ddb.repository';
-import config from 'config';
+import { DynamoDBDatabase } from '../database/dynamodb';
 
+@Service('ImageRepository')
 export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRepository {
-  imageClient: any;
+  private imageClient: any;
 
-  constructor() {
-    super();
+  constructor(protected dynamoDB: DynamoDBDatabase) {
+    super(dynamoDB);
 
     const imageTableDefinition = defineTable(
       {
