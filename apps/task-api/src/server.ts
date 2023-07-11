@@ -3,14 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import { json, urlencoded } from 'body-parser';
 import helmet from 'helmet';
+import Container from 'typedi';
 import { logger } from './config/logger';
-import { connectDatabase } from './infrastructure/database/connection';
-import { createTask } from './application/controllers/task-post.controller';
-import { getTask } from './application/controllers/task-get.controller';
+import { DynamoDBDatabase } from './infrastructure/database/dynamodb';
+import { PostTaskController } from './application/controllers/task-post.controller';
+import { GetTaskController } from './application/controllers/task-get.controller';
 
 const app: Express = express();
 
-// Middleware
 app.use(pinoHttp());
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -19,21 +19,22 @@ app.use(helmet.noSniff());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.frameguard({ action: 'deny' }));
 
-// Connect to the database
-connectDatabase().then(async () => {
+const dynamoDb = Container.get(DynamoDBDatabase);
+
+dynamoDb.connect().then(() => {
   logger.info('Database connected');
-  // const { createTask } = await import('./application/controllers/task-post.controller');
-  // const { getTask } = await import('./application/controllers/task-get.controller');
+  const getTaskController = Container.get(GetTaskController);
+  const postTaskController = Container.get(PostTaskController);
+  app.post('/task', postTaskController.request.bind(postTaskController));
+  app.get('/task/:taskId', getTaskController.request.bind(getTaskController));
+
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.id = uuidv4();
     next()
   });
-  app.post('/task', createTask);
-  app.get('/task/:taskId', getTask);
 }).catch((error) => {
   logger.error(error, 'Database connection failed');
 });
 
-// Routes
 
 export default app;
