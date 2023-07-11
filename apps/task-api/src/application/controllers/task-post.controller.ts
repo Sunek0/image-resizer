@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { join, parse } from "path";
-import fs, { promises as fsp, } from "fs";
+import { join, parse } from 'path';
+import fs, { promises as fsp, } from 'fs';
 import { logger } from '../../config/logger';
 import { CreateTask } from '../../core/domain/use-cases/create-task';
 import { CreateImage } from '../../core/domain/use-cases/create-image';
@@ -12,35 +12,35 @@ import { GetFile } from '../../core/domain/use-cases/get-file';
 import { UpdateTask } from '../../core/domain/use-cases/update-task';
 import { UploadFile } from '../../core/domain/use-cases/upload-file';
 import { TasksRepositoryDDB } from '../../infrastructure/repositories/task.repository';
-import { CreateTaskInput } from '../../core/domain/interfaces/create-task-input';
-import { UpdateTaskInput } from '../../core/domain/interfaces/update-task-input';
+import { ICreateTaskInput } from '../../core/domain/interfaces/create-task-input';
+import { IUpdateTaskInput } from '../../core/domain/interfaces/update-task-input';
 import { TaskStatus } from '../../core/domain/entities/task-status';
-import { AWSLambdaInteractor } from '../../infrastructure/interactors/aws-lambda.interactor';
-import { LocalImageInfoInteractor } from '../../infrastructure/interactors/local-image-info.interactor';
-import { LocalChecksumInteractor } from '../../infrastructure/interactors/local-checksum.interactor';
+import { AWSLambdaService } from '../../infrastructure/services/aws-lambda.service';
+import { LocalImageInfoService } from '../../infrastructure/services/local-image-info.service';
+import { LocalChecksumService } from '../../infrastructure/services/local-checksum.service';
 import { FileRepositoryS3 } from '../../infrastructure/repositories/file.repository';
-import { UploadFileInput } from '../../core/domain/interfaces/upload-file-input';
+import { IUploadFileInput } from '../../core/domain/interfaces/upload-file-input';
 import { ImagesRepositoryDDB } from '../../infrastructure/repositories/image.repository';
-import { CreateImageInput } from '../../core/domain/interfaces/create-image-input';
+import { ICreateImageInput } from '../../core/domain/interfaces/create-image-input';
 
 const taskRepository = new TasksRepositoryDDB();
 const imageRepository = new ImagesRepositoryDDB();
 const fileRepository = new FileRepositoryS3();
-const lambdaInteractor = new AWSLambdaInteractor();
-const localImageInteractor = new LocalImageInfoInteractor();
-const localChecksumInteractor = new LocalChecksumInteractor();
+const lambdaService = new AWSLambdaService();
+const localImageService = new LocalImageInfoService();
+const localChecksumService = new LocalChecksumService();
 
 export const createTask = async (req: Request, res: Response): Promise<void> => {
   const { imagePath } = req.body;
-  const filePath = join(__dirname, '../../../images', imagePath)
-  let taskData
+  const filePath = join(__dirname, '../../../images', imagePath);
+  let taskData;
 
   try {
     const createTaskUseCase = new CreateTask(taskRepository);
-    const createTaskInput: CreateTaskInput = {
+    const createTaskInput: ICreateTaskInput = {
       path: imagePath,
       status: TaskStatus.Processing
-    }
+    };
 
     const fileExists = await fsp.stat(filePath).catch(e => false);
 
@@ -55,7 +55,7 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
 
     res.status(202).send(taskData);
   } catch (error: any) {
-    logger.error(error, 'Error creating a task')
+    logger.error(error, 'Error creating a task');
     res.status(400).send({
       success: false,
       message: 'Error creating a task',
@@ -64,11 +64,11 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
 
   try {
     const imageStream = fs.createReadStream(filePath);
-    const getImageInfoUseCase = new GetImageInfo(localImageInteractor);
-    const getFileChecksumUseCase = new GetFileChecksum(localChecksumInteractor);
+    const getImageInfoUseCase = new GetImageInfo(localImageService);
+    const getFileChecksumUseCase = new GetFileChecksum(localChecksumService);
     const uploadFileUseCase = new UploadFile(fileRepository);
 
-    const uploadFileInput: UploadFileInput = {
+    const uploadFileInput: IUploadFileInput = {
       filename: filePath,
       data: imageStream
     };
@@ -83,17 +83,17 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
     const checksum = hash.read();
 
     const createImageUseCase = new CreateImage(imageRepository);
-    const createImageInput: CreateImageInput = {
+    const createImageInput: ICreateImageInput = {
       checksum,
       width: imageInfo?.width || 0,
       height: imageInfo?.height || 0,
       path: imagePath,
       parentId: ''
-    }
-    const originalImage = await createImageUseCase.execute(createImageInput)
+    };
+    const originalImage = await createImageUseCase.execute(createImageInput);
 
 
-    const callLambdaUseCase = new CallLambda(lambdaInteractor);
+    const callLambdaUseCase = new CallLambda(lambdaService);
     const lambdaResult = await callLambdaUseCase.execute(originalImage.id);
 
     const getImageUseCase = new GetImage(imageRepository);
@@ -116,36 +116,35 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
       const pathLittle = join(__dirname, '../../../output', parsedImage.name, '800');
       await fsp.mkdir(pathBig, { recursive: true });
       await fsp.mkdir(pathLittle, { recursive: true });
-      const bigImageStream = fs.createWriteStream(join(pathBig,` ${checksum}${parsedImage.ext}`));
-      const littleImageStream = fs.createWriteStream(join(pathLittle,` ${checksum}${parsedImage.ext}`));
+      const bigImageStream = fs.createWriteStream(join(pathBig, ` ${checksum}${parsedImage.ext}`));
+      const littleImageStream = fs.createWriteStream(join(pathLittle, ` ${checksum}${parsedImage.ext}`));
 
-      getBigFile?.data.Body.pipe(bigImageStream)
-      getLittleFile?.data.Body.pipe(littleImageStream)
+      getBigFile?.data.Body.pipe(bigImageStream);
+      getLittleFile?.data.Body.pipe(littleImageStream);
 
       if (taskData) {
-        const updateTaskInput: UpdateTaskInput = {
+        const updateTaskInput: IUpdateTaskInput = {
           id: taskData.id || '',
           status: TaskStatus.Completed
-        }
-        await updateTaskUseCase.execute(updateTaskInput)
+        };
+        await updateTaskUseCase.execute(updateTaskInput);
       }
-    }
-    else if (taskData) {
-      const updateTaskInput: UpdateTaskInput = {
+    } else if (taskData) {
+      const updateTaskInput: IUpdateTaskInput = {
         id: taskData.id || '',
         status: TaskStatus.Failed
-      }
-      await updateTaskUseCase.execute(updateTaskInput)
+      };
+      await updateTaskUseCase.execute(updateTaskInput);
     }
   } catch (error: any) {
-    console.log(error)
+    console.log(error);
     if (taskData) {
-      const updateTaskInput: UpdateTaskInput = {
+      const updateTaskInput: IUpdateTaskInput = {
         id: taskData.id || '',
         status: TaskStatus.Failed
-      }
+      };
       const updateTaskUseCase = new UpdateTask(taskRepository);
-      await updateTaskUseCase.execute(updateTaskInput)
+      await updateTaskUseCase.execute(updateTaskInput);
     }
   }
 };
