@@ -1,4 +1,4 @@
 
-export interface ResizeImageInput {
+export interface IResizeImageInput {
     path: string;
 }
