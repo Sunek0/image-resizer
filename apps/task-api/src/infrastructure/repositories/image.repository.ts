@@ -1,12 +1,10 @@
-import { TableClient, defineTable } from "@hexlabs/dynamo-ts";
-import { Image } from "../../core/domain/entities/image";
-import { ImageRepository } from "../../core/repositories/image.repository";
-import { DynamoDBRepository } from "./ddb.repository";
+import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
+import { Image } from '../../core/domain/entities/image';
+import { IImageRepository } from '../../core/repositories/image.repository';
+import { DynamoDBRepository } from './ddb.repository';
+import config from 'config';
 
-
-const tableName = process.env.IMAGE_TABLE_NAME;
-
-export class ImagesRepositoryDDB extends DynamoDBRepository implements ImageRepository {
+export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRepository {
   imageClient: any;
 
   constructor() {
@@ -25,7 +23,7 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements ImageRepo
     );
 
     this.imageClient = TableClient.build(imageTableDefinition, {
-      tableName: tableName,
+      tableName: config.aws.dynamodb.tables.images,
       client: this.dbClient,
       logStatements: true
     });
@@ -40,9 +38,9 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements ImageRepo
       checksum: image.checksum,
       width: image.width.toString(),
       height: image.height.toString()
-    }
+    };
 
-    await this.imageClient.put(params)
+    await this.imageClient.put(params);
 
     return image;
   }
@@ -50,7 +48,7 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements ImageRepo
   async findById(imageId: string): Promise<any> {
     const params = {
       id: imageId
-    }
+    };
 
     const result = await this.imageClient.get(params);
 

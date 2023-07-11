@@ -1,12 +1,11 @@
-import { TableClient, defineTable } from "@hexlabs/dynamo-ts";
-import { Task } from "../../core/domain/entities/task";
-import { TaskRepository } from "../../core/repositories/task.repository";
-import { DynamoDBRepository } from "./ddb.repository";
-import { TaskStatus } from "../../core/domain/entities/task-status";
+import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
+import { Task } from '../../core/domain/entities/task';
+import { ITaskRepository } from '../../core/repositories/task.repository';
+import { DynamoDBRepository } from './ddb.repository';
+import { TaskStatus } from '../../core/domain/entities/task-status';
+import config from 'config';
 
-const tableName = process.env.TASK_TABLE_NAME;
-
-export class TasksRepositoryDDB extends DynamoDBRepository implements TaskRepository {
+export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepository {
   taskClient: any;
 
   constructor() {
@@ -24,7 +23,7 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements TaskReposi
     );
 
     this.taskClient = TableClient.build(taskTableDefinition, {
-      tableName: tableName,
+      tableName: config.aws.dynamodb.tables.tasks,
       client: this.dbClient,
       logStatements: true
     });
@@ -38,9 +37,9 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements TaskReposi
       status: task.status.toString() ,
       cretedAt: task.createdAt.toString(),
       updatedAt: task.updatedAt.toString()
-    }
+    };
 
-    await this.taskClient.put(params)
+    await this.taskClient.put(params);
 
     return task;
   }
@@ -48,7 +47,7 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements TaskReposi
   async findById(taskId: string): Promise<any> {
     const params = {
       id: taskId
-    }
+    };
 
     const result = await this.taskClient.get(params);
 
@@ -64,8 +63,8 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements TaskReposi
         status: status.toString(),
         updatedAt: new Date().getTime().toString()
       }
-    }
+    };
 
-    await this.taskClient.update(params)
+    await this.taskClient.update(params);
   }
 }

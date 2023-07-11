@@ -1,0 +1,23 @@
+aws:
+  lambda:
+    region: eu-west-1
+    accessKeyId: AKIA2GIED7VKMZTW6AMH
+    secretAccessKey: 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
+    paths:
+      resize: https://9l1s5zqyy7.execute-api.eu-west-1.amazonaws.com/dev/resize
+  s3:
+    region: eu-west-1
+    accessKeyId: AKIA2GIED7VKMZTW6AMH
+    secretAccessKey: 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
+    bucket: dbarreiro.dynamic-image-resizing
+  dynamodb:
+    region: eu-west-1
+    accessKeyId: AKIA2GIED7VKMZTW6AMH
+    secretAccessKey: 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
+    tables:
+      images: images
+      tasks: tasks
+server:
+  port: 3000
+logger:
+  level: debug
