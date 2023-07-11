@@ -45,7 +45,7 @@ dynamoDb.connect().then(() => {
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.id = uuidv4();
-    next()
+    next();
   });
 }).catch((error) => {
   logger.error(error, 'Database connection failed');

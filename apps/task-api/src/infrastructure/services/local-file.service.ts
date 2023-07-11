@@ -7,7 +7,7 @@ export class LocalFileService implements IFileService {
   async fileExists(path: string): Promise<boolean> {
     return fsp.stat(path)
       .then(() => true)
-      .catch((e) => false)
+      .catch((e) => false);
   }
 
   getReaderStream(path: string): fs.ReadStream {

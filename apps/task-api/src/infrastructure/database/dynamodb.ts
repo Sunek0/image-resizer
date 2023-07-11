@@ -5,7 +5,7 @@ import { Service } from 'typedi';
 // let databaseConnection: DynamoDB;
 @Service()
 export class DynamoDBDatabase {
-  public instance: DynamoDB
+  public instance: DynamoDB;
 
   async connect(): Promise<void> {
     const dbConfig = config.get('aws.dynamodb');

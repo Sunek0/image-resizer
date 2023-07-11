@@ -55,12 +55,11 @@ export class ProcessTask {
 
       if (!getBigImage && !getLittleImage) {
         await this.taskRepository.update(taskId, TaskStatus.Failed);
-      }
-      else if (getBigImage && getLittleImage) {
+      } else if (getBigImage && getLittleImage) {
         const getBigFilePromise = await this.fileRepository.getItem(getBigImage.path);
         const getLittleFilePromise = await this.fileRepository.getItem(getLittleImage.path);
 
-        const [getBigFile, getLittleFile] = await Promise.all([getBigFilePromise, getLittleFilePromise])
+        const [getBigFile, getLittleFile] = await Promise.all([getBigFilePromise, getLittleFilePromise]);
 
         const parsedImage = parse(filePath);
 
@@ -69,7 +68,7 @@ export class ProcessTask {
 
         const createBigImageFolderPromise = this.fileService.createFolder(pathBig, true);
         const createLittleImageFolderPromise = this.fileService.createFolder(pathBig, true);
-        await Promise.all([createBigImageFolderPromise, createLittleImageFolderPromise])
+        await Promise.all([createBigImageFolderPromise, createLittleImageFolderPromise]);
 
         const bigImageStream = this.fileService.getWritableStream(join(pathBig, ` ${checksum}${parsedImage.ext}`));
         const littleImageStream = this.fileService.getWritableStream(join(pathLittle, ` ${checksum}${parsedImage.ext}`));

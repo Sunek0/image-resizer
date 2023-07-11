@@ -20,7 +20,7 @@ export class CreateTask {
     const fileExists = await this.fileService.fileExists(path);
 
     if (!fileExists) {
-      throw new Error(`${basePath} not exists`)
+      throw new Error(`${basePath} not exists`);
     }
     const task = new Task(basePath, status);
     await this.taskRepository.add(task);
