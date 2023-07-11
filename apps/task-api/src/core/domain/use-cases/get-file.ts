@@ -1,11 +1,10 @@
 import { File } from '../entities/file';
-import { FileRepository } from '../../repositories/file.repository';
-import { UploadFileInput } from '../interfaces/upload-file-input';
+import { IFileRepository } from '../../repositories/file.repository';
 
 export class GetFile {
-  private fileRepository: FileRepository;
+  private fileRepository: IFileRepository;
 
-  constructor(fileRepository: FileRepository) {
+  constructor(fileRepository: IFileRepository) {
     this.fileRepository = fileRepository;
   }
 

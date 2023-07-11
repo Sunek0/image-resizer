@@ -1,16 +1,16 @@
 import { Image } from '../entities/image';
-import { ImageRepository } from '../../repositories/image.repository';
-import { CreateImageInput } from '../interfaces/create-image-input';
+import { IImageRepository } from '../../repositories/image.repository';
+import { ICreateImageInput } from '../interfaces/create-image-input';
 
 
 export class CreateImage {
-  private imageRepository: ImageRepository;
+  private imageRepository: IImageRepository;
 
-  constructor(imageRepository: ImageRepository) {
+  constructor(imageRepository: IImageRepository) {
     this.imageRepository = imageRepository;
   }
 
-  async execute(input: CreateImageInput): Promise<Image> {
+  async execute(input: ICreateImageInput): Promise<Image> {
     const { path, checksum, width, height, parentId } = input;
     const image = new Image(path, checksum, width, height, parentId);
     await this.imageRepository.add(image);

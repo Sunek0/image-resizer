@@ -1,13 +1,17 @@
-import { DynamoDB } from "@aws-sdk/client-dynamodb";
-import databaseConfig from '../../config/database';
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import config from 'config';
 
-let databaseConnection: DynamoDB
+let databaseConnection: DynamoDB;
 
 const connectDatabase = async (): Promise<DynamoDB> => {
   // return new DynamoDBClient({ region: databaseConfig.region });
+  const dbConfig = config.get('aws.dynamodb');
   databaseConnection = new DynamoDB({
-    region: databaseConfig.region,
-    credentials: { accessKeyId: databaseConfig.accessKeyId, secretAccessKey: databaseConfig.secretAccessKey }
+    region: dbConfig.region,
+    credentials: {
+      accessKeyId: dbConfig.accessKeyId,
+      secretAccessKey: dbConfig.secretAccessKey
+    }
   });
 
   return databaseConnection;

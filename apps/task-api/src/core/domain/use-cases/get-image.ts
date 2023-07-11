@@ -1,10 +1,10 @@
 import { Image } from '../entities/image';
-import { ImageRepository } from '../../repositories/image.repository';
+import { IImageRepository } from '../../repositories/image.repository';
 
 export class GetImage {
-  private imageRepository: ImageRepository;
+  private imageRepository: IImageRepository;
 
-  constructor(imageRepository: ImageRepository) {
+  constructor(imageRepository: IImageRepository) {
     this.imageRepository = imageRepository;
   }
 

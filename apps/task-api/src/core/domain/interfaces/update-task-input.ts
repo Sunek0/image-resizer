@@ -1,6 +1,6 @@
-import { TaskStatus } from "../entities/task-status";
+import { TaskStatus } from '../entities/task-status';
 
-export interface UpdateTaskInput {
+export interface IUpdateTaskInput {
   id: string;
   status: TaskStatus;
 }

@@ -1,16 +1,16 @@
 import { Task } from '../entities/task';
-import { TaskRepository } from '../../repositories/task.repository';
-import { CreateTaskInput } from '../interfaces/create-task-input';
+import { ITaskRepository } from '../../repositories/task.repository';
+import { ICreateTaskInput } from '../interfaces/create-task-input';
 
 
 export class CreateTask {
-  private taskRepository: TaskRepository;
+  private taskRepository: ITaskRepository;
 
-  constructor(taskRepository: TaskRepository) {
+  constructor(taskRepository: ITaskRepository) {
     this.taskRepository = taskRepository;
   }
 
-  async execute(input: CreateTaskInput): Promise<Task> {
+  async execute(input: ICreateTaskInput): Promise<Task> {
     const { path, status } = input;
     const task = new Task(path, status);
     await this.taskRepository.add(task);

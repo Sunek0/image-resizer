@@ -1,17 +1,15 @@
 import { ImageResize } from '../entities/image-resize';
-import { LambdaInteractor } from '../../interactors/lambda.interactor';
-import { CreateTaskInput } from '../interfaces/create-task-input';
-
+import { ILambdaService } from '../../services/lambda.service';
 
 export class CallLambda {
-  private lambdaInteractor: LambdaInteractor;
+  private lambdaService: ILambdaService;
 
-  constructor(lambdaInteractor: LambdaInteractor) {
-    this.lambdaInteractor = lambdaInteractor;
+  constructor(lambdaService: ILambdaService) {
+    this.lambdaService = lambdaService;
   }
 
   async execute(imageId: string): Promise<ImageResize> {
-    const result = await this.lambdaInteractor.resizeImage(imageId);
+    const result = await this.lambdaService.resizeImage(imageId);
     return result;
   }
 }

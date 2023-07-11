@@ -1,4 +1,4 @@
-export interface CreateImageInput {
+export interface ICreateImageInput {
   parentId: string;
   path: string;
   checksum: string;

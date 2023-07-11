@@ -1,4 +1,4 @@
-export interface UploadFileInput {
+export interface IUploadFileInput {
   filename: string;
   data: any;
 }

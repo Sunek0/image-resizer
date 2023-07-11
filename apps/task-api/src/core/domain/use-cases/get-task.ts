@@ -1,10 +1,10 @@
 import { Task } from '../entities/task';
-import { TaskRepository } from '../../repositories/task.repository';
+import { ITaskRepository } from '../../repositories/task.repository';
 
 export class GetTask {
-  private taskRepository: TaskRepository;
+  private taskRepository: ITaskRepository;
 
-  constructor(taskRepository: TaskRepository) {
+  constructor(taskRepository: ITaskRepository) {
     this.taskRepository = taskRepository;
   }
 

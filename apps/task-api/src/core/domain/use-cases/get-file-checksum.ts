@@ -1,16 +1,16 @@
 import { Hash } from 'crypto';
 import { ImageInfo } from '../entities/image-info';
-import { FileChecksumInteractor } from '../../interactors/file-checksum.interactor';
+import { IFileChecksumService } from '../../services/file-checksum.service';
 
 export class GetFileChecksum {
-  private fileChecksumInteractor: FileChecksumInteractor;
+  private fileChecksumService: IFileChecksumService;
 
-  constructor(fileChecksumInteractor: FileChecksumInteractor) {
-    this.fileChecksumInteractor = fileChecksumInteractor;
+  constructor(fileChecksumService: IFileChecksumService) {
+    this.fileChecksumService = fileChecksumService;
   }
 
   execute(stream: any): Hash {
-    const hash = this.fileChecksumInteractor.computeChecksum(stream);
+    const hash = this.fileChecksumService.computeChecksum(stream);
     return hash;
   }
 }

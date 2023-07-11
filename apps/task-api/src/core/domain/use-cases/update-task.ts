@@ -1,15 +1,15 @@
-import { TaskRepository } from '../../repositories/task.repository';
-import { UpdateTaskInput } from '../interfaces/update-task-input';
+import { ITaskRepository } from '../../repositories/task.repository';
+import { IUpdateTaskInput } from '../interfaces/update-task-input';
 
 
 export class UpdateTask {
-  private taskRepository: TaskRepository;
+  private taskRepository: ITaskRepository;
 
-  constructor(taskRepository: TaskRepository) {
+  constructor(taskRepository: ITaskRepository) {
     this.taskRepository = taskRepository;
   }
 
-  async execute(input: UpdateTaskInput): Promise<void> {
+  async execute(input: IUpdateTaskInput): Promise<void> {
     const { id, status } = input;
     await this.taskRepository.update(id, status);
   }
