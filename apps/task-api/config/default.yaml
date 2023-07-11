@@ -1,23 +1,23 @@
 aws:
   lambda:
     region: eu-west-1
-    accessKeyId: AKIA2GIED7VKMZTW6AMH
-    secretAccessKey: 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
+    accessKeyId: <AWS KEY ID>
+    secretAccessKey: <AWS Secret KEY>
     paths:
-      resize: https://9l1s5zqyy7.execute-api.eu-west-1.amazonaws.com/dev/resize
+      resize: <lamda API Path>
   s3:
     region: eu-west-1
-    accessKeyId: AKIA2GIED7VKMZTW6AMH
-    secretAccessKey: 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
-    bucket: dbarreiro.dynamic-image-resizing
+    accessKeyId: <AWS KEY ID>
+    secretAccessKey: <AWS Secret KEY>
+    bucket: <S3 bucket>
   dynamodb:
     region: eu-west-1
-    accessKeyId: AKIA2GIED7VKMZTW6AMH
-    secretAccessKey: 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
+    accessKeyId: <AWS KEY ID>
+    secretAccessKey: <AWS Secret KEY>
     tables:
       images: images
       tasks: tasks
 server:
   port: 3000
 logger:
-  level: debug
+  level: info
