@@ -1,14 +1,11 @@
+import { Inject, Service } from 'typedi';
 import { Image } from '../entities/image';
 import { IImageRepository } from '../../repositories/image.repository';
 import { ICreateImageInput } from '../interfaces/create-image-input';
 
-
+@Service()
 export class CreateImage {
-  private imageRepository: IImageRepository;
-
-  constructor(imageRepository: IImageRepository) {
-    this.imageRepository = imageRepository;
-  }
+  constructor(@Inject('ImageRepository') private imageRepository: IImageRepository) {}
 
   async execute(input: ICreateImageInput): Promise<Image> {
     const { path, checksum, width, height, parentId } = input;

@@ -1,13 +1,10 @@
+import { Inject, Service } from 'typedi';
 import { ITaskRepository } from '../../repositories/task.repository';
 import { IUpdateTaskInput } from '../interfaces/update-task-input';
 
-
+@Service()
 export class UpdateTask {
-  private taskRepository: ITaskRepository;
-
-  constructor(taskRepository: ITaskRepository) {
-    this.taskRepository = taskRepository;
-  }
+  constructor(@Inject('TaskRepository') private taskRepository: ITaskRepository) {}
 
   async execute(input: IUpdateTaskInput): Promise<void> {
     const { id, status } = input;

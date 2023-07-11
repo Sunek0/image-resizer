@@ -1,13 +1,10 @@
+import { Inject, Service } from 'typedi';
 import { Hash } from 'crypto';
-import { ImageInfo } from '../entities/image-info';
 import { IFileChecksumService } from '../../services/file-checksum.service';
 
+@Service()
 export class GetFileChecksum {
-  private fileChecksumService: IFileChecksumService;
-
-  constructor(fileChecksumService: IFileChecksumService) {
-    this.fileChecksumService = fileChecksumService;
-  }
+  constructor(@Inject('FileChecksumService') private fileChecksumService: IFileChecksumService) {}
 
   execute(stream: any): Hash {
     const hash = this.fileChecksumService.computeChecksum(stream);
