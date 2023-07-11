@@ -1,7 +1,6 @@
 import { Service } from 'typedi';
 import { Request, Response } from 'express';
 import { GetTask } from '../../core/domain/use-cases/get-task';
-import { IGetTaskInput } from '../dto/get-task.input';
 
 @Service()
 export class GetTaskController {
