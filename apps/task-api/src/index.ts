@@ -1,13 +1,14 @@
 import 'reflect-metadata';
-import { logger } from './config/logger'
-import app from './config/app';
+import config from 'config';
+import { logger } from './config/logger';
+import app from './server';
 
 try {
-  const port = process.env.PORT ?? '3000';
+  const port = config.server.port;
 
   app.listen(port, () => {
     logger.info({ port }, 'Server is listening...');
-  })
+  });
 } catch (e) {
   console.log(e);
   process.exit(1);
