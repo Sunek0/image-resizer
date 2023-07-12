@@ -49,7 +49,7 @@ export class ProcessTask {
 
       const [getBigImage, getLittleImage] = await Promise.all([getBigImagePromise, getLittleImagePromise]);
 
-      if (!getBigImage && !getLittleImage) {
+      if (!getBigImage || !getLittleImage) {
         await this.taskRepository.update(taskId, TaskStatus.Failed);
       } else if (getBigImage && getLittleImage) {
         const getBigFilePromise = await this.fileRepository.getItem(getBigImage.path);
@@ -74,7 +74,7 @@ export class ProcessTask {
 
         await this.taskRepository.update(taskId, TaskStatus.Completed);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       await this.taskRepository.update(taskId, TaskStatus.Failed);
     }
