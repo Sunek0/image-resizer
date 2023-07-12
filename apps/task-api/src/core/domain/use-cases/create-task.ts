@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { join } from 'path';
 import { Task } from '../entities/task';
+import errors from 'common-errors';
 import { ITaskRepository } from '../../repositories/task.repository';
 import { ICreateTaskInput } from '../interfaces/create-task-input';
 import { IFileService } from '../../services/file.service';
@@ -21,7 +22,7 @@ export class CreateTask {
     const fileExists = await this.fileService.fileExists(filePath);
 
     if (!fileExists) {
-      throw new Error(`${filePath} not exists`);
+      throw new errors.io.FileNotFoundError(`${filePath} not exists`);
     }
     const task = new Task(fileName, TaskStatus.Processing);
     await this.taskRepository.add(task);
