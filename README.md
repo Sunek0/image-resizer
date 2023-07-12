@@ -11,6 +11,9 @@ El proyecto lo compone de:
 
 Ambas aplicaciones han sido desarrolladas en typescript.
 
+![POST diagram](architecture-gragram.png)
+
+
 ### Requisitos
 Para poder ejecutar este proyecto es necesario la creación de un usuario AWS. No se han definido los roles necesarios para la ejecución de la demo, se puede dar permisos de `AdministratorAccess` pero no es una práctica recomendada.
 
