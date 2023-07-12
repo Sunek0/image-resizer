@@ -51,7 +51,7 @@ En caso de encontrar el archivo devolverá un código 202 con un objeto con el s
 El funcionamiento del endpoint es el siguiente:
 ![POST diagram](post-flow-diagram.png)
 
-**GET** http://localhost:3000/task/<task-uuid>. Si se encuentra la tarea devolverá un código 200 con un objeto con el siguiente contenido:
+**GET** http://localhost:3000/task/[task-id]. Si se encuentra la tarea devolverá un código 200 con un objeto con el siguiente contenido:
 ```
 {
   "id": "65dc58e5-ec98-42b7-b77f-d037db2f3738",
