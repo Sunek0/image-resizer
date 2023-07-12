@@ -2,5 +2,5 @@ import pino from 'pino';
 import config from 'config';
 
 export const logger = pino({
-  level: config.logger.level,
+  level: config?.logger.level || 'info',
 });
