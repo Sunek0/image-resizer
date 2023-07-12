@@ -30,10 +30,16 @@ export class PostTaskController {
       res.status(202).send(taskData);
     } catch (error: any) {
       logger.error(error, 'Error creating a task');
-      res.status(400).send({
-        success: false,
-        message: 'Error creating a task',
-      });
+      if (error.type == 'FileNotFoundError') {
+        res.status(400).send({
+          message: 'Image not found',
+        });
+      }
+      else {
+        res.status(400).send({
+          message: 'Error creating a task',
+        });
+      }
     }
 
     const processTaskInput: IProcessTaskInput = {
