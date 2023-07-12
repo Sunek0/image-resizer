@@ -4,6 +4,10 @@ import { Image } from '../../../../../src/core/domain/entities/image'
 jest.mock('uuid');
 const uuidSpy = jest.spyOn(uuid, 'v4');
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('Domain image entity unit tests', () => {
   it('should constructor populate properties with parentId', () => {
     const path = 'foobar';
@@ -28,7 +32,7 @@ describe('Domain image entity unit tests', () => {
     const height = 600;
     const image = new Image(path, checksum, width, height);
 
-    expect(uuidSpy).toHaveBeenCalledTimes(2);
+    expect(uuidSpy).toHaveBeenCalledTimes(1);
     expect(image.parentId).toStrictEqual('');
     expect(image.path).toStrictEqual(path);
     expect(image.width).toStrictEqual(width);
