@@ -6,7 +6,6 @@ import { IImageRepository } from '../../repositories/image.repository';
 import { ILambdaService } from '../../services/lambda.service';
 import { ITaskRepository } from '../../repositories/task.repository';
 import { TaskStatus } from '../entities/task-status';
-import { IUploadFileInput } from '../interfaces/upload-file-input';
 import { IFileChecksumService } from '../../services/file-checksum.service';
 import { File } from '../entities/file';
 import { IFileRepository } from '../../repositories/file.repository';
