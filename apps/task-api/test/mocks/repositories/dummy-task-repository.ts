@@ -1,8 +1,8 @@
-import { Task } from "../../src/core/domain/entities/task";
-import { TaskStatus } from "../../src/core/domain/entities/task-status";
-import { TaskRepository } from "../../src/core/repositories/task.repository";
+import { Task } from "../../../src/core/domain/entities/task";
+import { TaskStatus } from "../../../src/core/domain/entities/task-status";
+import { ITaskRepository } from "../../../src/core/repositories/task.repository";
 
-export class DummyTaskRepository implements TaskRepository {
+export class DummyTaskRepository implements ITaskRepository {
   add(task: Task): Promise<Task> {
     return Promise.resolve(new Task('foobar', TaskStatus.Processing));
   }
