@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { Request, Response } from 'express';
+import { logger } from '../../config/logger';
 import { GetTask } from '../../core/domain/use-cases/get-task';
 
 @Service()
@@ -11,12 +12,18 @@ export class GetTaskController {
       const { taskId } = req.params;
       const task = await this.getTaskUseCase.execute(taskId);
 
-      res.status(200).send(task);
+      if (task) {
+        res.status(200).send(task);
+      } else {
+        res.status(400).send({
+          message: 'Task not found',
+        });
+      }
+
     } catch (error: any) {
-      res.status(400).send({
-        success: false,
-        message: error.message,
-        error
+      logger.error({ error, reqId: req.id }, 'Error fetching a task');
+      res.status(500).send({
+        message: 'Error fetching a task',
       });
     }
   }

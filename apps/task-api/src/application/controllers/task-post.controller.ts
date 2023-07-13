@@ -29,7 +29,7 @@ export class PostTaskController {
 
       res.status(202).send(taskData);
     } catch (error: any) {
-      logger.error(error, 'Error creating a task');
+      logger.error({ error, reqId: req.id }, 'Error creating a task');
       if (error.type == 'FileNotFoundError') {
         res.status(400).send({
           message: 'Image not found',
