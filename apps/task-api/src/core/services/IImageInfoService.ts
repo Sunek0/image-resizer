@@ -1,4 +1,4 @@
-import { ImageInfo } from '../domain/entities/image-info';
+import { ImageInfo } from '../domain/entities/ImageInfo';
 
 export interface IImageInfoService {
   getImageInfo(data: any): Promise<ImageInfo>;
