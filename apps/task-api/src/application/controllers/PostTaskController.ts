@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { join } from 'path';
 import { Service } from 'typedi';
+import errors from 'common-errors';
 import { logger } from '../../config/logger';
 import { CreateTask } from '../../core/domain/use-cases/create-task';
 import { ProcessTask } from '../../core/domain/use-cases/process-task';
-import { ICreateTaskInput } from '../../core/domain/interfaces/create-task-input';
-import { IProcessTaskInput } from '../../core/domain/interfaces/process-task-input';
-import { IPostTaskInput } from '../dto/post-task.input';
+import { ICreateTaskInput } from '../../core/domain/interfaces/ICreateTaskInput';
+import { IProcessTaskInput } from '../../core/domain/interfaces/IProcessTaskInput';
+import { IPostTaskInput } from '../dto/IPostTaskInput';
 
 
 @Service()
@@ -30,7 +31,7 @@ export class PostTaskController {
       res.status(202).send(taskData);
     } catch (error: any) {
       logger.error({ error, reqId: req.id }, 'Error creating a task');
-      if (error.type == 'FileNotFoundError') {
+      if (error instanceof errors.io.FileNotFoundError) {
         res.status(400).send({
           message: 'Image not found',
         });
@@ -42,12 +43,14 @@ export class PostTaskController {
       }
     }
 
-    const processTaskInput: IProcessTaskInput = {
-      fileName: imageFile,
-      imageDirectory: join(global.appRoot, 'images'),
-      outputDirectory: join(global.appRoot, 'output'),
-      taskId: taskData.id
-    };
-    await this.processTaskUseCase.execute(processTaskInput);
+    if (taskData) {
+      const processTaskInput: IProcessTaskInput = {
+        fileName: imageFile,
+        imageDirectory: join(global.appRoot, 'images'),
+        outputDirectory: join(global.appRoot, 'output'),
+        taskId: taskData.id
+      };
+      await this.processTaskUseCase.execute(processTaskInput);
+    }
   }
 }
