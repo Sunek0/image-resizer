@@ -35,8 +35,7 @@ export class PostTaskController {
         res.status(400).send({
           message: 'Image not found',
         });
-      }
-      else {
+      } else {
         res.status(400).send({
           message: 'Error creating a task',
         });

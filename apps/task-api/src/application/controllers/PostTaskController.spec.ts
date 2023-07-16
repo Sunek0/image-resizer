@@ -20,7 +20,7 @@ describe('Domain file entity unit tests', () => {
     jest.mock('../../core/domain/use-cases/get-task');
 
     jest.spyOn(path, 'join').mockImplementation(() => {
-      return 'dummyPath'
+      return 'dummyPath';
     });
 
     const dummyFileRepository = new DummyFileRepository();
@@ -44,10 +44,10 @@ describe('Domain file entity unit tests', () => {
     const task = new Task('foobar', TaskStatus.Processing);
 
     const createTaskSpy = jest.spyOn(createTask, 'execute')
-      .mockImplementation(() => Promise.resolve(task))
+      .mockImplementation(() => Promise.resolve(task));
 
     const processTaskSpy = jest.spyOn(processTask, 'execute')
-      .mockImplementation(() => Promise.resolve())
+      .mockImplementation(() => Promise.resolve());
 
     const postTaskController = new PostTaskController(createTask, processTask);
 
@@ -68,7 +68,7 @@ describe('Domain file entity unit tests', () => {
     jest.mock('../../core/domain/use-cases/get-task');
 
     jest.spyOn(path, 'join').mockImplementation(() => {
-      return 'dummyPath'
+      return 'dummyPath';
     });
 
     const dummyFileRepository = new DummyFileRepository();
@@ -96,7 +96,7 @@ describe('Domain file entity unit tests', () => {
       });
 
     const processTaskSpy = jest.spyOn(processTask, 'execute')
-      .mockImplementation(() => Promise.resolve())
+      .mockImplementation(() => Promise.resolve());
 
     const postTaskController = new PostTaskController(createTask, processTask);
 
@@ -118,7 +118,7 @@ describe('Domain file entity unit tests', () => {
     jest.mock('../../core/domain/use-cases/get-task');
 
     jest.spyOn(path, 'join').mockImplementation(() => {
-      return 'dummyPath'
+      return 'dummyPath';
     });
 
     const dummyFileRepository = new DummyFileRepository();
@@ -146,7 +146,7 @@ describe('Domain file entity unit tests', () => {
       });
 
     const processTaskSpy = jest.spyOn(processTask, 'execute')
-      .mockImplementation(() => Promise.resolve())
+      .mockImplementation(() => Promise.resolve());
 
     const postTaskController = new PostTaskController(createTask, processTask);
 

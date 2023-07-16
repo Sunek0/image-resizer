@@ -1,5 +1,5 @@
-import { getMockReq, getMockRes } from '@jest-mock/express'
-import { GetTaskController } from './GetTaskController'
+import { getMockReq, getMockRes } from '@jest-mock/express';
+import { GetTaskController } from './GetTaskController';
 import { GetTask } from '../../core/domain/use-cases/get-task';
 import { DummyTaskRepository } from '../../../test/mocks/repositories/DummyTaskRepository';
 import { Task } from '../../core/domain/entities/Task';
@@ -14,7 +14,7 @@ describe('Domain file entity unit tests', () => {
     const task = new Task('foobar', TaskStatus.Processing);
 
     const getTaskSpy = jest.spyOn(getTask, 'execute')
-      .mockResolvedValue(task)
+      .mockResolvedValue(task);
 
     const getTaskController = new GetTaskController(getTask);
 
@@ -38,7 +38,7 @@ describe('Domain file entity unit tests', () => {
     const getTask = new GetTask(dummyTaskRepository);
 
     const getTaskSpy = jest.spyOn(getTask, 'execute')
-      .mockResolvedValue(null)
+      .mockResolvedValue(null);
 
     const getTaskController = new GetTaskController(getTask);
 
@@ -61,7 +61,7 @@ describe('Domain file entity unit tests', () => {
     const getTask = new GetTask(dummyTaskRepository);
 
     const getTaskSpy = jest.spyOn(getTask, 'execute')
-      .mockRejectedValue(new Error())
+      .mockRejectedValue(new Error());
 
     const getTaskController = new GetTaskController(getTask);
 
