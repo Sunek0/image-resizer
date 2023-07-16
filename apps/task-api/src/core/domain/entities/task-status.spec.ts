@@ -1,8 +1,8 @@
-import { TaskStatus } from '../../../../../src/core/domain/entities/task-status'
+import { TaskStatus } from './task-status'
 
 
 describe('Domain task status entity unit tests', () => {
-  it('should have three vallues', () => {
+  it('should have three posibles values', () => {
     expect(TaskStatus).toMatchInlineSnapshot(`
       {
         "Completed": "Completed",

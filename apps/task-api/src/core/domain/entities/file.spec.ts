@@ -1,4 +1,4 @@
-import { File } from '../../../../../src/core/domain/entities/file'
+import { File } from './file'
 
 describe('Domain file entity unit tests', () => {
   it('should constructor populate properties', () => {

@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Image } from '../../../../../src/core/domain/entities/image'
+import { Image } from './image'
 
 jest.mock('uuid');
 const uuidSpy = jest.spyOn(uuid, 'v4');

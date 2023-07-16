@@ -1,4 +1,4 @@
-import { Lambda } from '../../../../../src/core/domain/entities/lambda'
+import { Lambda } from './lambda'
 
 
 describe('Domain lambda entity unit tests', () => {

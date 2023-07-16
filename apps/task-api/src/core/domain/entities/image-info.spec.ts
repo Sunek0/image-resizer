@@ -1,4 +1,4 @@
-import { ImageInfo } from '../../../../../src/core/domain/entities/image-info'
+import { ImageInfo } from './image-info'
 
 describe('Domain image entity unit tests', () => {
   it('should constructor populate properties', () => {
