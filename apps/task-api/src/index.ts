@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import config from 'config';
 import { join, resolve } from 'path';
 import { logger } from './config/logger';
-import { Server } from './server';
+import { Server } from './Server';
 
 try {
   global.appRoot = join(resolve(__dirname), '../');

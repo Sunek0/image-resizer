@@ -5,16 +5,16 @@ import { json, urlencoded } from 'body-parser';
 import helmet from 'helmet';
 import Container from 'typedi';
 import { logger } from './config/logger';
-import { DynamoDBDatabase } from './infrastructure/database/dynamodb';
-import { PostTaskController } from './application/controllers/task-post.controller';
-import { GetTaskController } from './application/controllers/task-get.controller';
-import { TasksRepositoryDDB } from './infrastructure/repositories/task.repository';
-import { LocalFileChecksumService } from './infrastructure/services/local-file-checksum.service';
-import { FileRepositoryS3 } from './infrastructure/repositories/file.repository';
-import { LocalFileService } from './infrastructure/services/local-file.service';
-import { LocalImageInfoService } from './infrastructure/services/local-image-info.service';
-import { ImagesRepositoryDDB } from './infrastructure/repositories/image.repository';
-import { AWSLambdaService } from './infrastructure/services/aws-lambda.service';
+import { DynamoDBDatabase } from './infrastructure/database/DynamoDBDatabase';
+import { PostTaskController } from './application/controllers/PostTaskController';
+import { GetTaskController } from './application/controllers/GetTaskController';
+import { TasksRepositoryDDB } from './infrastructure/repositories/TasksRepositoryDDB';
+import { LocalFileChecksumService } from './infrastructure/services/LocalFileChecksumService';
+import { FileRepositoryS3 } from './infrastructure/repositories/FileRepositoryS3';
+import { LocalFileService } from './infrastructure/services/LocalFileService';
+import { LocalImageInfoService } from './infrastructure/services/LocalImageInfoService';
+import { ImagesRepositoryDDB } from './infrastructure/repositories/ImagesRepositoryDDB';
+import { AWSLambdaService } from './infrastructure/services/AWSLambdaService';
 
 export class Server {
   app: Express;
