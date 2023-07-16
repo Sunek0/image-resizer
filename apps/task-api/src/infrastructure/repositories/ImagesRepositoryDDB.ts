@@ -3,10 +3,10 @@ import config from 'config';
 import errors from 'common-errors';
 import { Service } from 'typedi';
 import { logger } from '../../config/logger';
-import { Image } from '../../core/domain/entities/image';
-import { IImageRepository } from '../../core/repositories/image.repository';
-import { DynamoDBRepository } from './ddb.repository';
-import { DynamoDBDatabase } from '../database/dynamodb';
+import { Image } from '../../core/domain/entities/Image';
+import { IImageRepository } from '../../core/repositories/IImageRepository';
+import { DynamoDBRepository } from './DynamoDBRepository';
+import { DynamoDBDatabase } from '../database/DynamoDBDatabase';
 
 @Service('ImageRepository')
 export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRepository {

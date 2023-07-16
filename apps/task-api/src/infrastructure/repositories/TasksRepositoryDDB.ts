@@ -3,11 +3,11 @@ import { Service } from 'typedi';
 import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
-import { Task } from '../../core/domain/entities/task';
-import { ITaskRepository } from '../../core/repositories/task.repository';
-import { DynamoDBRepository } from './ddb.repository';
-import { TaskStatus } from '../../core/domain/entities/task-status';
-import { DynamoDBDatabase } from '../database/dynamodb';
+import { Task } from '../../core/domain/entities/Task';
+import { ITaskRepository } from '../../core/repositories/ITaskRepository';
+import { DynamoDBRepository } from './DynamoDBRepository';
+import { TaskStatus } from '../../core/domain/entities/TaskStatus';
+import { DynamoDBDatabase } from '../database/DynamoDBDatabase';
 
 @Service('TaskRepository')
 export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepository {

@@ -1,6 +1,6 @@
 import errors from 'common-errors';
-import { FileRepositoryS3 } from './file.repository'
-import { File } from '../../core/domain/entities/file';
+import { FileRepositoryS3 } from './FileRepositoryS3'
+import { File } from '../../core/domain/entities/File';
 
 const sendFn = jest.fn(() => Promise.resolve('data'));
 

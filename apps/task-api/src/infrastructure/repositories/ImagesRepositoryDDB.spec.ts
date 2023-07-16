@@ -1,7 +1,7 @@
 import errors from 'common-errors';
-import { ImagesRepositoryDDB } from './image.repository'
-import { DummyDynamoDb } from '../../../test/mocks/database/dummy-dynamodb';
-import { Image } from '../../core/domain/entities/image';
+import { ImagesRepositoryDDB } from './ImagesRepositoryDDB'
+import { DummyDynamoDb } from '../../../test/mocks/database/DummyDynamoDb';
+import { Image } from '../../core/domain/entities/Image';
 
 const getFn = jest.fn(() => ({}));
 const putFn = jest.fn();

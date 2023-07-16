@@ -1,6 +1,6 @@
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
-import { DynamoDBRepository } from './ddb.repository'
-import { DummyDynamoDb } from '../../../test/mocks/database/dummy-dynamodb';
+import { DynamoDBRepository } from './DynamoDBRepository'
+import { DummyDynamoDb } from '../../../test/mocks/database/DummyDynamoDb';
 
 jest.mock("@aws-sdk/lib-dynamodb");
 

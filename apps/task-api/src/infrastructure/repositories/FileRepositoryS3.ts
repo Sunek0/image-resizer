@@ -4,9 +4,9 @@ import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { Service } from 'typedi';
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
-import { File } from '../../core/domain/entities/file';
-import { IFileRepository } from '../../core/repositories/file.repository';
-import { S3Repository } from './s3.repository';
+import { File } from '../../core/domain/entities/File';
+import { IFileRepository } from '../../core/repositories/IFileRepository';
+import { S3Repository } from './S3Repository';
 
 @Service('FileRepository')
 export class FileRepositoryS3 extends S3Repository implements IFileRepository {

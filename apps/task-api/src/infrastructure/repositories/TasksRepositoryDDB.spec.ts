@@ -1,8 +1,8 @@
 import errors from 'common-errors';
-import { TasksRepositoryDDB } from './task.repository'
-import { DummyDynamoDb } from '../../../test/mocks/database/dummy-dynamodb';
-import { Task } from '../../core/domain/entities/task';
-import { TaskStatus } from '../../core/domain/entities/task-status';
+import { TasksRepositoryDDB } from './TasksRepositoryDDB'
+import { DummyDynamoDb } from '../../../test/mocks/database/DummyDynamoDb';
+import { Task } from '../../core/domain/entities/Task';
+import { TaskStatus } from '../../core/domain/entities/TaskStatus';
 
 const getFn = jest.fn(() => ({}));
 const putFn = jest.fn();
