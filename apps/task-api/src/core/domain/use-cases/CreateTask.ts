@@ -1,11 +1,11 @@
 import { Inject, Service } from 'typedi';
 import { join } from 'path';
-import { Task } from '../entities/task';
 import errors from 'common-errors';
-import { ITaskRepository } from '../../repositories/task.repository';
-import { ICreateTaskInput } from '../interfaces/create-task-input';
-import { IFileService } from '../../services/file.service';
-import { TaskStatus } from '../entities/task-status';
+import { Task } from '../entities/Task';
+import { ITaskRepository } from '../../repositories/ITaskRepository';
+import { ICreateTaskInput } from '../interfaces/ICreateTaskInput';
+import { IFileService } from '../../services/IFileService';
+import { TaskStatus } from '../entities/TaskStatus';
 
 @Service()
 export class CreateTask {

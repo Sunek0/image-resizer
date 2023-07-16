@@ -1,5 +1,5 @@
-import { GetTask } from './get-task'
-import { DummyTaskRepository } from '../../../../test/mocks/repositories/dummy-task-repository';
+import { GetTask } from './GetTask'
+import { DummyTaskRepository } from '../../../../test/mocks/repositories/DummyTaskRepository';
 
 describe('Domain get task use case unit tests', () => {
   it('should execute', () => {

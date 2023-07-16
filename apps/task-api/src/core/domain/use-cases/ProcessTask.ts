@@ -1,16 +1,16 @@
 import { Inject, Service } from 'typedi';
 import { join, parse } from 'path';
-import { IFileService } from '../../services/file.service';
-import { IImageInfoService } from '../../services/image-info.service';
-import { IImageRepository } from '../../repositories/image.repository';
-import { ILambdaService } from '../../services/lambda.service';
-import { ITaskRepository } from '../../repositories/task.repository';
-import { TaskStatus } from '../entities/task-status';
-import { IFileChecksumService } from '../../services/file-checksum.service';
-import { File } from '../entities/file';
-import { IFileRepository } from '../../repositories/file.repository';
-import { Image } from '../entities/image';
-import { IProcessTaskInput } from '../interfaces/process-task-input';
+import { IFileService } from '../../services/IFileService';
+import { IImageInfoService } from '../../services/IImageInfoService';
+import { IImageRepository } from '../../repositories/IImageRepository';
+import { ILambdaService } from '../../services/ILambdaService';
+import { ITaskRepository } from '../../repositories/ITaskRepository';
+import { TaskStatus } from '../entities/TaskStatus';
+import { IFileChecksumService } from '../../services/IFileChecksumService';
+import { File } from '../entities/File';
+import { IFileRepository } from '../../repositories/IFileRepository';
+import { Image } from '../entities/Image';
+import { IProcessTaskInput } from '../interfaces/IProcessTaskInput';
 
 @Service()
 export class ProcessTask {

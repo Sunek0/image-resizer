@@ -1,6 +1,6 @@
 import { Inject, Service } from 'typedi';
-import { Task } from '../entities/task';
-import { ITaskRepository } from '../../repositories/task.repository';
+import { Task } from '../entities/Task';
+import { ITaskRepository } from '../../repositories/ITaskRepository';
 
 @Service()
 export class GetTask {
