@@ -4,16 +4,18 @@ import { Service } from 'typedi';
 
 @Service()
 export class S3Repository {
-  s3Client: S3Client;
+  protected s3Client: S3Client;
+  protected config: any;
+
   constructor() {
-    const s3Config = config.get('aws.s3');
+    this.config = config.get('aws.s3');
 
     this.s3Client = new S3Client({
       credentials: {
-          accessKeyId: s3Config.accessKeyId,
-          secretAccessKey: s3Config.secretAccessKey
+          accessKeyId: this.config.accessKeyId,
+          secretAccessKey: this.config.secretAccessKey
       },
-      region: s3Config.region
+      region: this.config.region
   });
   }
 }

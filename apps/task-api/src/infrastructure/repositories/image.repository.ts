@@ -1,6 +1,8 @@
 import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
 import config from 'config';
+import errors from 'common-errors';
 import { Service } from 'typedi';
+import { logger } from '../../config/logger';
 import { Image } from '../../core/domain/entities/image';
 import { IImageRepository } from '../../core/repositories/image.repository';
 import { DynamoDBRepository } from './ddb.repository';
@@ -43,9 +45,14 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRep
       height: image.height.toString()
     };
 
-    await this.imageClient.put(params);
-
-    return image;
+    try {
+      await this.imageClient.put(params);
+      return image;
+    }
+    catch (err: any) {
+      logger.error({ error: err }, 'Error adding a image');
+      throw new errors.data.DataError('Error adding a image', err);
+    }
   }
 
   async findById(imageId: string): Promise<any> {
@@ -53,8 +60,13 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRep
       id: imageId
     };
 
-    const result = await this.imageClient.get(params);
-
-    return result.item;
+    try {
+      const result = await this.imageClient.get(params);
+      return result.item;
+    }
+    catch (err: any) {
+      logger.error({ error: err }, 'Error fetching a image');
+      throw new errors.data.DataError('Error fetching a image', err);
+    }
   }
 }

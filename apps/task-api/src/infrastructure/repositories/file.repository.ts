@@ -1,20 +1,15 @@
 import { parse } from 'path';
 import { Upload } from '@aws-sdk/lib-storage';
-import config from 'config';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { Service } from 'typedi';
+import errors from 'common-errors';
+import { logger } from '../../config/logger';
 import { File } from '../../core/domain/entities/file';
 import { IFileRepository } from '../../core/repositories/file.repository';
 import { S3Repository } from './s3.repository';
 
 @Service('FileRepository')
 export class FileRepositoryS3 extends S3Repository implements IFileRepository {
-  private config: any;
-  constructor() {
-    super();
-    this.config = config.get('aws.s3');
-  }
-
   putItem(image: File): Promise<void> {
     const parsedFile = parse(image.filename);
 
@@ -28,10 +23,11 @@ export class FileRepositoryS3 extends S3Repository implements IFileRepository {
     })
       .done()
       .then(() => {
-        console.log('pum');
+        logger.debug({ path: image.filename, bucket: this.config.bucket }, 'File uploaded');
       })
       .catch((err) => {
-        console.log(err);
+        logger.error({ error: err }, 'Error uploading a file');
+        throw new errors.data.DataError('Error uploading a file', err);
       });
   }
 
@@ -44,7 +40,12 @@ export class FileRepositoryS3 extends S3Repository implements IFileRepository {
     const getImageCommand = new GetObjectCommand(imageParams);
     return this.s3Client.send(getImageCommand)
       .then((data) => {
+        logger.debug({ path: imagePath, bucket: this.config.bucket }, 'File fetched');
         return new File(imagePath, data);
+      })
+      .catch((err) => {
+        logger.error({ error: err }, 'Error fetching a file');
+        throw new errors.data.DataError('Error fetching a file', err);
       });
   }
 }

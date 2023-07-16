@@ -1,6 +1,8 @@
 import config from 'config';
 import { Service } from 'typedi';
 import { TableClient, defineTable } from '@hexlabs/dynamo-ts';
+import errors from 'common-errors';
+import { logger } from '../../config/logger';
 import { Task } from '../../core/domain/entities/task';
 import { ITaskRepository } from '../../core/repositories/task.repository';
 import { DynamoDBRepository } from './ddb.repository';
@@ -42,9 +44,14 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepos
       updatedAt: task.updatedAt.toString()
     };
 
-    await this.taskClient.put(params);
-
-    return task;
+    try {
+      await this.taskClient.put(params);
+      return task;
+    }
+    catch (err: any) {
+      logger.error({ error: err }, 'Error adding a task');
+      throw new errors.data.DataError('Error adding a task', err);
+    }
   }
 
   async findById(taskId: string): Promise<any> {
@@ -52,9 +59,14 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepos
       id: taskId
     };
 
-    const result = await this.taskClient.get(params);
-
-    return result.item;
+    try {
+      const result = await this.taskClient.get(params);
+      return result.item;
+    }
+    catch (err: any) {
+      logger.error({ error: err }, 'Error fetching a task');
+      throw new errors.data.DataError('Error fetching a task', err);
+    }
   }
 
   async update(taskId: string, status: TaskStatus): Promise<void> {
@@ -68,6 +80,12 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepos
       }
     };
 
-    await this.taskClient.update(params);
+    try {
+      await this.taskClient.update(params);
+    }
+    catch (err: any) {
+      logger.error({ error: err }, 'Error updating a task');
+      throw new errors.data.DataError('Error updating a task', err);
+    }
   }
 }
