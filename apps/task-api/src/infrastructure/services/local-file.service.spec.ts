@@ -1,12 +1,12 @@
 import fs, { promises as fsp } from 'fs';
 import errors from 'common-errors';
-import { LocalFileService } from '../../../../src/infrastructure/services/local-file.service'
+import { LocalFileService } from './local-file.service'
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe('Domain get task use case unit tests', () => {
+describe('Service local file unit tests', () => {
   it('should fileExists return true if file exists', async () => {
     const localFileService = new LocalFileService();
     const statSpy = jest.spyOn(fsp, 'stat')
@@ -78,6 +78,32 @@ describe('Domain get task use case unit tests', () => {
     catch (err: any) {
       expect(createWriteStreamSpy).toHaveBeenCalledTimes(1);
       expect(err).toBeInstanceOf(errors.io.IOError);;
+    }
+  });
+
+  it('should createFolder return true if file exists', async () => {
+    const localFileService = new LocalFileService();
+    const mkdirSpy = jest.spyOn(fsp, 'mkdir')
+      .mockResolvedValue(Promise.resolve(undefined));
+
+    const createFolder = await localFileService.createFolder('foobar');
+
+    expect(mkdirSpy).toHaveBeenCalledTimes(1);
+    expect(createFolder).toBeUndefined();
+  });
+
+  it('should createFolder return false if file not exists', async () => {
+    const localFileService = new LocalFileService();
+    const mkdirSpy = jest.spyOn(fsp, 'mkdir')
+      .mockResolvedValue(Promise.reject({ name: 'error '}));
+
+    try {
+      await localFileService.createFolder('foobar');
+
+    }
+    catch (err: any) {
+      expect(mkdirSpy).toHaveBeenCalledTimes(1);
+      expect(err).toBeInstanceOf(errors.io.IOError);
     }
   });
 });
