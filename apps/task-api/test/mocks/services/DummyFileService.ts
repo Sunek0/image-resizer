@@ -1,5 +1,5 @@
 import { ReadStream, WriteStream, fstat } from "fs";
-import { IFileService } from "../../../src/core/services/file.service";
+import { IFileService } from "../../../src/core/services/IFileService";
 
 export class DummyFileService implements IFileService {
   fileExists(path: string): Promise<boolean> {

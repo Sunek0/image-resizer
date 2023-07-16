@@ -1,6 +1,6 @@
-import { Task } from "../../../src/core/domain/entities/task";
-import { TaskStatus } from "../../../src/core/domain/entities/task-status";
-import { ITaskRepository } from "../../../src/core/repositories/task.repository";
+import { Task } from "../../../src/core/domain/entities/Task";
+import { TaskStatus } from "../../../src/core/domain/entities/TaskStatus";
+import { ITaskRepository } from "../../../src/core/repositories/ITaskRepository";
 
 export class DummyTaskRepository implements ITaskRepository {
   add(task: Task): Promise<Task> {

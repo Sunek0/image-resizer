@@ -1,5 +1,5 @@
-import { Image } from "../../../src/core/domain/entities/image";
-import { IImageRepository } from "../../../src/core/repositories/image.repository";
+import { Image } from "../../../src/core/domain/entities/Image";
+import { IImageRepository } from "../../../src/core/repositories/IImageRepository";
 
 export class DummyImageRepository implements IImageRepository {
   add(image: Image): Promise<Image> {

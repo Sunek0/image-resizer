@@ -1,5 +1,5 @@
-import { ImageResize } from "../../../src/core/domain/entities/image-resize";
-import { ILambdaService } from "../../../src/core/services/lambda.service";
+import { ImageResize } from "../../../src/core/domain/entities/ImageResize";
+import { ILambdaService } from "../../../src/core/services/ILambdaService";
 
 export class DummyLambdaService implements ILambdaService {
   resizeImage(imageId: string): Promise<ImageResize> {
