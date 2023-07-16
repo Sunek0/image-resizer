@@ -16,10 +16,9 @@ export class LocalImageInfoService implements IImageInfoService {
       });
       try {
         data.pipe(imageSizeStream);
-      }
-      catch (err: any) {
-        logger.error({ error: err.name }, "Can't obtain image data");
-        reject(new errors.io.IOError("Can't obtain image data"));
+      } catch (err: any) {
+        logger.error({ error: err.name }, 'Can\'t obtain image data');
+        reject(new errors.io.IOError('Can\'t obtain image data'));
       }
     });
   }

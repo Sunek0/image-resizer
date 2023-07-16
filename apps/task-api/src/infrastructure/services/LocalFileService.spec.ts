@@ -1,6 +1,6 @@
 import fs, { promises as fsp } from 'fs';
 import errors from 'common-errors';
-import { LocalFileService } from './LocalFileService'
+import { LocalFileService } from './LocalFileService';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -48,10 +48,9 @@ describe('Service local file unit tests', () => {
 
     try {
       const getReaderStream = localFileService.getReaderStream('foobar');
-    }
-    catch (err: any) {
+    } catch (err: any) {
       expect(createReadStreamSpy).toHaveBeenCalledTimes(1);
-      expect(err).toBeInstanceOf(errors.io.IOError);;
+      expect(err).toBeInstanceOf(errors.io.IOError);
     }
   });
 
@@ -74,10 +73,9 @@ describe('Service local file unit tests', () => {
 
     try {
       const getWritableStream = localFileService.getWritableStream('foobar');
-    }
-    catch (err: any) {
+    } catch (err: any) {
       expect(createWriteStreamSpy).toHaveBeenCalledTimes(1);
-      expect(err).toBeInstanceOf(errors.io.IOError);;
+      expect(err).toBeInstanceOf(errors.io.IOError);
     }
   });
 
@@ -100,8 +98,7 @@ describe('Service local file unit tests', () => {
     try {
       await localFileService.createFolder('foobar');
 
-    }
-    catch (err: any) {
+    } catch (err: any) {
       expect(mkdirSpy).toHaveBeenCalledTimes(1);
       expect(err).toBeInstanceOf(errors.io.IOError);
     }

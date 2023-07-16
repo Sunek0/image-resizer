@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { LocalFileChecksumService } from './LocalFileChecksumService'
+import { LocalFileChecksumService } from './LocalFileChecksumService';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -7,7 +7,7 @@ beforeEach(() => {
 
 describe('Service local file checksum unit tests', () => {
   it('should do a computer checksum', () => {
-    jest.mock("image-size-stream", () => {
+    jest.mock('image-size-stream', () => {
         return () => ({
             on: jest.fn()
         });

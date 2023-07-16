@@ -15,9 +15,8 @@ export class LocalFileService implements IFileService {
   getReaderStream(path: string): fs.ReadStream {
     try {
       return fs.createReadStream(path);
-    }
-    catch (err: any) {
-      logger.error({ path, error: err.name }, "Can't create read stream");
+    } catch (err: any) {
+      logger.error({ path, error: err.name }, 'Can\'t create read stream');
       throw new errors.io.IOError(`Can't create read stream to ${path}`);
     }
   }
@@ -25,9 +24,8 @@ export class LocalFileService implements IFileService {
   getWritableStream(path: string): fs.WriteStream {
     try {
       return fs.createWriteStream(path);
-    }
-    catch (err: any) {
-      logger.error({ path, error: err.name }, "Can't create directory");
+    } catch (err: any) {
+      logger.error({ path, error: err.name }, 'Can\'t create directory');
       throw new errors.io.IOError(`Can't create write stream to ${path}`);
     }
   }
@@ -35,7 +33,7 @@ export class LocalFileService implements IFileService {
   async createFolder(path: string, recursive: boolean = false): Promise<void> {
     await fsp.mkdir(path, { recursive })
       .catch((err: any) => {
-        logger.error({ path, error: err.name }, "Can't create directory");
+        logger.error({ path, error: err.name }, 'Can\'t create directory');
         throw new errors.io.IOError(`Can't create ${path}`);
       });
   }

@@ -1,6 +1,6 @@
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
-import { LocalImageInfoService } from './LocalImageInfoService'
+import { LocalImageInfoService } from './LocalImageInfoService';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -10,12 +10,12 @@ beforeEach(() => {
 describe('Service locla image info unit tests', () => {
   it('should getImageInfo correctly', () => {
     const onFn = jest.fn().mockImplementationOnce((name, cb) => {
-      console.log('odiofasdfdasdf')
+      console.log('odiofasdfdasdf');
       expect(name).toBe('size');
       cb({ width: 1024, height: 768 });
-    })
+    });
 
-    jest.mock("image-size-stream", () => {
+    jest.mock('image-size-stream', () => {
         return () => ({
             on: onFn
         });
@@ -24,7 +24,7 @@ describe('Service locla image info unit tests', () => {
 
     const dummyData = {
       pipe: jest.fn()
-    }
+    };
 
     dummyLocalImageInfoService.getImageInfo(dummyData);
 
@@ -32,7 +32,7 @@ describe('Service locla image info unit tests', () => {
   });
 
   it('should throw an error', () => {
-    jest.mock("image-size-stream", () => {
+    jest.mock('image-size-stream', () => {
         return () => ({
             on: jest.fn()
         });
@@ -43,7 +43,7 @@ describe('Service locla image info unit tests', () => {
       pipe: jest.fn().mockImplementation(() => {
         throw new Error();
       })
-    }
+    };
 
     dummyLocalImageInfoService.getImageInfo(dummyData)
       .catch((err: any) => {

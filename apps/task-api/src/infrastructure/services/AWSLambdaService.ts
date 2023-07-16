@@ -13,8 +13,7 @@ export class AWSLambdaService implements ILambdaService {
       const { data } = await axios.post<ImageResize>(config.aws.lambda.paths.resize, { imageId });
 
       return data;
-    }
-    catch (err: any) {
+    } catch (err: any) {
       if (err.response) {
         logger.error({
           code: err.code,
@@ -22,14 +21,14 @@ export class AWSLambdaService implements ILambdaService {
           message: err.data?.message || err.message,
           status: err.response.status
         }, 'Failed to request Lambda function');
-        throw new errors.HttpStatusError(err.response.status, err.data?.message || err.code)
+        throw new errors.HttpStatusError(err.response.status, err.data?.message || err.code);
       } else {
         logger.error({
           code: err.code,
           name: err.name,
           message: err.message
         }, 'Failed to request Lambda function');
-        throw new errors.ArgumentError(err.code, err)
+        throw new errors.ArgumentError(err.code, err);
       }
     }
   }

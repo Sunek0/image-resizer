@@ -1,7 +1,7 @@
 import axios from 'axios';
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
-import { AWSLambdaService } from './AWSLambdaService'
+import { AWSLambdaService } from './AWSLambdaService';
 import { ImageResize } from '../../core/domain/entities/ImageResize';
 
 beforeEach(() => {
@@ -9,11 +9,11 @@ beforeEach(() => {
 });
 
 const exampleData: ImageResize = {
-	status: "completed",
-	imageId: "d0f26085-9bd3-4398-9cf9-34816b565eef",
-	imageBigId: "03495f3d-643c-4e11-8af7-fe99699a4210",
-	imageLittleId: "f8da05d8-aaad-4116-974d-dd78884deabb"
-}
+	status: 'completed',
+	imageId: 'd0f26085-9bd3-4398-9cf9-34816b565eef',
+	imageBigId: '03495f3d-643c-4e11-8af7-fe99699a4210',
+	imageLittleId: 'f8da05d8-aaad-4116-974d-dd78884deabb'
+};
 
 describe('Service aws lambda unit tests', () => {
   it('should resizeImage return object if ok', async () => {
@@ -42,12 +42,11 @@ describe('Service aws lambda unit tests', () => {
         }
       }));
 
-    try{
+    try {
       await awsLambdaService.resizeImage('foobar');
-    }
-    catch (err: any) {
+    } catch (err: any) {
       expect(axiosSpy).toHaveBeenCalledTimes(1);
-      expect(err).toBeInstanceOf(errors.HttpStatusError)
+      expect(err).toBeInstanceOf(errors.HttpStatusError);
       expect(logger.error).toHaveBeenCalledTimes(1);
     }
   });
@@ -67,12 +66,11 @@ describe('Service aws lambda unit tests', () => {
         }
       }));
 
-    try{
+    try {
       await awsLambdaService.resizeImage('foobar');
-    }
-    catch (err: any) {
+    } catch (err: any) {
       expect(axiosSpy).toHaveBeenCalledTimes(1);
-      expect(err).toBeInstanceOf(errors.HttpStatusError)
+      expect(err).toBeInstanceOf(errors.HttpStatusError);
       expect(logger.error).toHaveBeenCalledTimes(1);
     }
   });
@@ -84,12 +82,11 @@ describe('Service aws lambda unit tests', () => {
         data: {}
       }));
 
-    try{
+    try {
       await awsLambdaService.resizeImage('foobar');
-    }
-    catch (err: any) {
+    } catch (err: any) {
       expect(axiosSpy).toHaveBeenCalledTimes(1);
-      expect(err).toBeInstanceOf(errors.ArgumentError)
+      expect(err).toBeInstanceOf(errors.ArgumentError);
       expect(logger.error).toHaveBeenCalledTimes(1);
     }
   });
