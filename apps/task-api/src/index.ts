@@ -2,21 +2,22 @@ import 'reflect-metadata';
 import config from 'config';
 import { join, resolve } from 'path';
 import { logger } from './config/logger';
-import app from './server';
+import { Server } from './server';
 
 try {
   global.appRoot = join(resolve(__dirname), '../');
-  const port = config.server.port;
 
-  app.listen(port, () => {
-    logger.info({ port }, 'Server is listening...');
-  });
-} catch (e) {
-  console.log(e);
+  const port = config.server.port;
+  const server = new Server();
+
+  server.initialize()
+    .then(() => server.listen(port));
+} catch (err: any) {
+  logger.error({ error: err }, 'Server initialization exception');
   process.exit(1);
 }
 
 process.on('uncaughtException', err => {
-  logger.error(err, 'Uncaught exception');
+  logger.error({ error: err }, 'Uncaught exception');
   process.exit(1);
 });
