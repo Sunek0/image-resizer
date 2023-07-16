@@ -1,5 +1,7 @@
 import { Service } from 'typedi';
+import errors from 'common-errors';
 import createImageSizeStream from 'image-size-stream';
+import { logger } from '../../config/logger';
 import { ImageInfo } from '../../core/domain/entities/image-info';
 import { IImageInfoService } from '../../core/services/image-info.service';
 
@@ -12,8 +14,13 @@ export class LocalImageInfoService implements IImageInfoService {
         const imageInfo = new ImageInfo(dimensions.width, dimensions.height, dimensions.type);
         resolve(imageInfo);
       });
-
-      data.pipe(imageSizeStream);
+      try {
+        data.pipe(imageSizeStream);
+      }
+      catch (err: any) {
+        logger.error({ error: err.name }, "Can't obtain image data");
+        reject(new errors.io.IOError("Can't obtain image data"));
+      }
     });
   }
 }
