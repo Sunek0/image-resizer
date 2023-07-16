@@ -1,4 +1,4 @@
-import { DynamoDBDatabase } from './dynamodb'
+import { DynamoDBDatabase } from './DynamoDBDatabase'
 
 jest.mock('@aws-sdk/client-dynamodb', () => {
   return {
