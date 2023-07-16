@@ -1,6 +1,6 @@
 import fs, { promises as fsp } from 'fs';
 import errors from 'common-errors';
-import { LocalFileService } from './local-file.service'
+import { LocalFileService } from './LocalFileService'
 
 beforeEach(() => {
   jest.clearAllMocks();

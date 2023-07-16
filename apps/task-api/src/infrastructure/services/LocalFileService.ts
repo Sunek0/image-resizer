@@ -2,7 +2,7 @@ import errors from 'common-errors';
 import { Service } from 'typedi';
 import fs, { promises as fsp } from 'fs';
 import { logger } from '../../config/logger';
-import { IFileService } from '../../core/services/file.service';
+import { IFileService } from '../../core/services/IFileService';
 
 @Service('FileService')
 export class LocalFileService implements IFileService {

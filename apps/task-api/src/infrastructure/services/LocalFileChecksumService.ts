@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import crypto from 'crypto';
-import { IFileChecksumService } from '../../core/services/file-checksum.service';
+import { IFileChecksumService } from '../../core/services/IFileChecksumService';
 import { Stream } from 'stream';
 
 @Service('FileChecksumService')

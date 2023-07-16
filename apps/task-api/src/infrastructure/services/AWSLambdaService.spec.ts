@@ -1,8 +1,8 @@
 import axios from 'axios';
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
-import { AWSLambdaService } from './aws-lambda.service'
-import { ImageResize } from '../../core/domain/entities/image-resize';
+import { AWSLambdaService } from './AWSLambdaService'
+import { ImageResize } from '../../core/domain/entities/ImageResize';
 
 beforeEach(() => {
   jest.clearAllMocks();

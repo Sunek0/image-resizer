@@ -3,8 +3,8 @@ import config from 'config';
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
 import { Service } from 'typedi';
-import { ImageResize } from '../../core/domain/entities/image-resize';
-import { ILambdaService } from '../../core/services/lambda.service';
+import { ImageResize } from '../../core/domain/entities/ImageResize';
+import { ILambdaService } from '../../core/services/ILambdaService';
 
 @Service('LambdaService')
 export class AWSLambdaService implements ILambdaService {

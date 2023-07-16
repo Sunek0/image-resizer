@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { LocalFileChecksumService } from './local-file-checksum.service'
+import { LocalFileChecksumService } from './LocalFileChecksumService'
 
 beforeEach(() => {
   jest.clearAllMocks();

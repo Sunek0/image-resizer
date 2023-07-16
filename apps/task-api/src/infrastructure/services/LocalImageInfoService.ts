@@ -2,8 +2,8 @@ import { Service } from 'typedi';
 import errors from 'common-errors';
 import createImageSizeStream from 'image-size-stream';
 import { logger } from '../../config/logger';
-import { ImageInfo } from '../../core/domain/entities/image-info';
-import { IImageInfoService } from '../../core/services/image-info.service';
+import { ImageInfo } from '../../core/domain/entities/ImageInfo';
+import { IImageInfoService } from '../../core/services/IImageInfoService';
 
 @Service('ImageInfoService')
 export class LocalImageInfoService implements IImageInfoService {

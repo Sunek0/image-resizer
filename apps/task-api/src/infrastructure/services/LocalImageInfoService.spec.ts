@@ -1,6 +1,6 @@
 import errors from 'common-errors';
 import { logger } from '../../config/logger';
-import { LocalImageInfoService } from './local-image-info.service'
+import { LocalImageInfoService } from './LocalImageInfoService'
 
 beforeEach(() => {
   jest.clearAllMocks();
