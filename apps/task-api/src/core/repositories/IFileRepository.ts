@@ -1,4 +1,4 @@
-import { File } from '../domain/entities/file';
+import { File } from '../domain/entities/File';
 
 export interface IFileRepository {
   putItem(image: File): Promise<void>;

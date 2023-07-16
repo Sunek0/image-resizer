@@ -1,4 +1,4 @@
-import { Image } from '../domain/entities/image';
+import { Image } from '../domain/entities/Image';
 
 export interface IImageRepository {
   add(image: Image): Promise<Image>;
