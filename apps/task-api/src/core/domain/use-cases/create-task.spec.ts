@@ -1,8 +1,8 @@
 import errors from 'common-errors';
-import { ICreateTaskInput } from '../../../../../src/core/domain/interfaces/create-task-input';
-import { CreateTask } from '../../../../../src/core/domain/use-cases/create-task'
-import { DummyTaskRepository } from '../../../../mocks/repositories/dummy-task-repository';
-import { DummyFileService } from '../../../../mocks/services/dummy-file-service';
+import { ICreateTaskInput } from '../interfaces/create-task-input';
+import { CreateTask } from './create-task'
+import { DummyTaskRepository } from '../../../../test/mocks/repositories/dummy-task-repository';
+import { DummyFileService } from '../../../../test/mocks/services/dummy-file-service';
 
 beforeEach(() => {
   jest.clearAllMocks();
