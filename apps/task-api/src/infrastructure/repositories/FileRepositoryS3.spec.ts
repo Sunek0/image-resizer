@@ -1,5 +1,5 @@
 import errors from 'common-errors';
-import { FileRepositoryS3 } from './FileRepositoryS3'
+import { FileRepositoryS3 } from './FileRepositoryS3';
 import { File } from '../../core/domain/entities/File';
 
 const sendFn = jest.fn(() => Promise.resolve('data'));
@@ -9,20 +9,20 @@ jest.mock('@aws-sdk/client-s3', () => {
     S3Client: jest.fn(() => {
       return {
         send: sendFn
-      }
+      };
     }),
     GetObjectCommand: jest.fn()
   };
 });
 
-const doneFn = jest.fn(() => Promise.resolve())
+const doneFn = jest.fn(() => Promise.resolve());
 
 jest.mock('@aws-sdk/lib-storage', () => {
   return {
     Upload: jest.fn(() => {
       return {
         done: doneFn
-      }
+      };
     })
   };
 });
@@ -49,8 +49,7 @@ describe('File repository unit tests', () => {
 
     try {
       await fileRepositoryS3.putItem(file);
-    }
-    catch(err) {
+    } catch (err) {
       expect(err).toBeInstanceOf(errors.data.DataError);
     }
   });
@@ -71,8 +70,7 @@ describe('File repository unit tests', () => {
 
     try {
       await fileRepositoryS3.getItem('foobar');
-    }
-    catch(err) {
+    } catch (err) {
       expect(err).toBeInstanceOf(errors.data.DataError);
     }
   });

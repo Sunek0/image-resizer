@@ -48,8 +48,7 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRep
     try {
       await this.imageClient.put(params);
       return image;
-    }
-    catch (err: any) {
+    } catch (err: any) {
       logger.error({ error: err }, 'Error adding a image');
       throw new errors.data.DataError('Error adding a image', err);
     }
@@ -63,8 +62,7 @@ export class ImagesRepositoryDDB extends DynamoDBRepository implements IImageRep
     try {
       const result = await this.imageClient.get(params);
       return result.item;
-    }
-    catch (err: any) {
+    } catch (err: any) {
       logger.error({ error: err }, 'Error fetching a image');
       throw new errors.data.DataError('Error fetching a image', err);
     }

@@ -1,6 +1,6 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import config from 'config';
-import { S3Repository } from './S3Repository'
+import { S3Repository } from './S3Repository';
 import { DummyDynamoDb } from '../../../test/mocks/database/DummyDynamoDb';
 
 jest.mock('@aws-sdk/client-s3', () => {

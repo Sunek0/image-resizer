@@ -47,8 +47,7 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepos
     try {
       await this.taskClient.put(params);
       return task;
-    }
-    catch (err: any) {
+    } catch (err: any) {
       logger.error({ error: err }, 'Error adding a task');
       throw new errors.data.DataError('Error adding a task', err);
     }
@@ -62,8 +61,7 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepos
     try {
       const result = await this.taskClient.get(params);
       return result.item;
-    }
-    catch (err: any) {
+    } catch (err: any) {
       logger.error({ error: err }, 'Error fetching a task');
       throw new errors.data.DataError('Error fetching a task', err);
     }
@@ -82,8 +80,7 @@ export class TasksRepositoryDDB extends DynamoDBRepository implements ITaskRepos
 
     try {
       await this.taskClient.update(params);
-    }
-    catch (err: any) {
+    } catch (err: any) {
       logger.error({ error: err }, 'Error updating a task');
       throw new errors.data.DataError('Error updating a task', err);
     }
