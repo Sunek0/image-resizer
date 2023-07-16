@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
-import { Task } from './Task'
-import { TaskStatus } from './TaskStatus'
+import { Task } from './Task';
+import { TaskStatus } from './TaskStatus';
 
 jest.mock('uuid');
 const uuidSpy = jest.spyOn(uuid, 'v4');

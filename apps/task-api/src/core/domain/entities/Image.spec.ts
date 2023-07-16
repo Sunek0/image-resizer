@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Image } from './Image'
+import { Image } from './Image';
 
 jest.mock('uuid');
 const uuidSpy = jest.spyOn(uuid, 'v4');
@@ -14,7 +14,7 @@ describe('Domain image entity unit tests', () => {
     const checksum = '1234ABCD';
     const width = 1000;
     const height = 600;
-    const parentId = '1234-5678'
+    const parentId = '1234-5678';
     const image = new Image(path, checksum, width, height, parentId);
 
     expect(uuidSpy).toHaveBeenCalledTimes(1);
