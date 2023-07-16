@@ -1,4 +1,4 @@
-import { ImageResize } from './image-resize'
+import { ImageResize } from './ImageResize'
 
 describe('Domain image resize entity unit tests', () => {
   it('should constructor populate properties', () => {

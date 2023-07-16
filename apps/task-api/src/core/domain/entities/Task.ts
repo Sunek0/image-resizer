@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { TaskStatus } from './task-status';
+import { TaskStatus } from './TaskStatus';
 
 export class Task {
     id: string;
@@ -18,13 +18,13 @@ export class Task {
         this.updatedAt = time;
     }
 
-    markAsCompleted(): void {
-      this.status = TaskStatus.Completed;
-      this.updatedAt = new Date().getTime();
-    }
+    // markAsCompleted(): void {
+    //   this.status = TaskStatus.Completed;
+    //   this.updatedAt = new Date().getTime();
+    // }
 
-    markAsFailed(): void {
-      this.status = TaskStatus.Failed;
-      this.updatedAt = new Date().getTime();
-    }
+    // markAsFailed(): void {
+    //   this.status = TaskStatus.Failed;
+    //   this.updatedAt = new Date().getTime();
+    // }
 }

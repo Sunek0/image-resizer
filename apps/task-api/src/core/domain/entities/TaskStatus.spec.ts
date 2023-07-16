@@ -1,4 +1,4 @@
-import { TaskStatus } from './task-status'
+import { TaskStatus } from './TaskStatus'
 
 
 describe('Domain task status entity unit tests', () => {
