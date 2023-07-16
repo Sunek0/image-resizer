@@ -54,8 +54,7 @@ export class Server {
         req.id = uuidv4();
         next();
       });
-    }
-    catch (err: any) {
+    } catch (err: any) {
       logger.error({ error: err }, 'Database connection failed');
     }
   }
