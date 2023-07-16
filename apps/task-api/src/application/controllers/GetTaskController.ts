@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Request, Response } from 'express';
 import { logger } from '../../config/logger';
-import { GetTask } from '../../core/domain/use-cases/get-task';
+import { GetTask } from '../../core/domain/use-cases/GetTask';
 
 @Service()
 export class GetTaskController {
