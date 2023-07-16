@@ -1,6 +1,6 @@
 import errors from 'common-errors';
 import { ICreateTaskInput } from '../interfaces/ICreateTaskInput';
-import { CreateTask } from './create-task'
+import { CreateTask } from './CreateTask';
 import { DummyTaskRepository } from '../../../../test/mocks/repositories/DummyTaskRepository';
 import { DummyFileService } from '../../../../test/mocks/services/DummyFileService';
 
@@ -45,8 +45,7 @@ describe('Domain create task use case unit tests', () => {
 
     try {
       await task.execute(input);
-    }
-    catch (err) {
+    } catch (err) {
       expect(serviceSpy).toHaveBeenCalledTimes(1);
       expect(err).toBeInstanceOf(errors.io.FileNotFoundError);
     }
